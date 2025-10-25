@@ -1,0 +1,79 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Mills Star Foundation Logo - Two figures representing inclusion and support -->
+  
+  <!-- Left figure - Person in wheelchair (Green body, Blue wheelchair) -->
+  <!-- Head -->
+  <circle cx="180" cy="90" r="32" fill="#005EB8"/>
+  
+  <!-- Green body/torso with dynamic upward motion -->
+  <path d="M 165 125 Q 175 160 168 210 Q 165 250 172 290 Q 175 310 180 330" 
+        stroke="#4CAF50" 
+        stroke-width="42" 
+        fill="none" 
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+  
+  <!-- Arm reaching up/out -->
+  <path d="M 170 170 Q 150 190 130 210" 
+        stroke="#4CAF50" 
+        stroke-width="28" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- Blue wheelchair wheel (outer circle) -->
+  <circle cx="180" cy="390" r="75" 
+          stroke="#005EB8" 
+          stroke-width="18" 
+          fill="none"/>
+  
+  <!-- Green wheelchair wheel (inner circle) -->
+  <circle cx="180" cy="390" r="48" 
+          stroke="#4CAF50" 
+          stroke-width="14" 
+          fill="none"/>
+  
+  <!-- Blue wheelchair frame/support -->
+  <path d="M 165 330 L 165 370 Q 165 380 172 385" 
+        stroke="#005EB8" 
+        stroke-width="16" 
+        stroke-linecap="round"/>
+  
+  <!-- Right figure - Standing person (Light Blue) with dynamic pose -->
+  <!-- Head -->
+  <circle cx="340" cy="90" r="32" fill="#005EB8"/>
+  
+  <!-- Body with slight curve -->
+  <path d="M 340 125 Q 345 180 340 240 L 340 280" 
+        stroke="#00A8E1" 
+        stroke-width="38" 
+        stroke-linecap="round"/>
+  
+  <!-- Arms - one reaching toward left figure -->
+  <path d="M 310 160 Q 270 180 240 200" 
+        stroke="#00A8E1" 
+        stroke-width="30" 
+        stroke-linecap="round"/>
+  <path d="M 370 160 Q 390 170 400 190" 
+        stroke="#00A8E1" 
+        stroke-width="30" 
+        stroke-linecap="round"/>
+  
+  <!-- Legs in walking/active pose -->
+  <path d="M 340 280 Q 330 340 315 410" 
+        stroke="#00A8E1" 
+        stroke-width="32" 
+        stroke-linecap="round"/>
+  <path d="M 340 280 Q 350 340 365 410" 
+        stroke="#00A8E1" 
+        stroke-width="32" 
+        stroke-linecap="round"/>
+  
+  <!-- Connection arc - representing unity and support -->
+  <path d="M 200 140 Q 260 100 320 140" 
+        stroke="#4CAF50" 
+        stroke-width="10" 
+        fill="none" 
+        opacity="0.8"
+        stroke-linecap="round"
+        stroke-dasharray="5,5"/>
+</svg>
