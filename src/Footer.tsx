@@ -124,10 +124,11 @@ export function Footer({ setCurrentPage }: FooterProps) {
                 <Twitter className="h-5 w-5" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/millsstarfoundation_usa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-colors"
+                aria-label="Follow us on Instagram"
               >
                 <Instagram className="h-5 w-5" />
               </a>
