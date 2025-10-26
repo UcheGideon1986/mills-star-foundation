@@ -1,6 +1,19 @@
+import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
 
-export default async (req: Request) => {
+export default async (req: Request, context: Context) => {
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
+  }
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
@@ -9,9 +22,14 @@ export default async (req: Request) => {
   try {
     const body = await req.json();
     const { type, data } = body;
-    
-    const store = getStore('images');
-    
+
+    const store = getStore({
+      name: 'images',
+      consistency: 'strong',
+      siteID: context.site.id,
+      token: context.token,
+    });
+
     // Save based on type
     switch (type) {
       case 'gallery-images':
@@ -35,7 +53,7 @@ export default async (req: Request) => {
           },
         });
     }
-    
+
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: {
@@ -45,7 +63,10 @@ export default async (req: Request) => {
     });
   } catch (error) {
     console.error('Error saving images:', error);
-    return new Response(JSON.stringify({ error: 'Failed to save images' }), {
+    return new Response(JSON.stringify({ 
+      error: 'Failed to save images',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json',

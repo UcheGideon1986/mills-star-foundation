@@ -1,8 +1,26 @@
+import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
 
-export default async (req: Request) => {
+export default async (req: Request, context: Context) => {
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
+  }
+
   try {
-    const store = getStore('images');
+    const store = getStore({
+      name: 'images',
+      consistency: 'strong',
+      siteID: context.site.id,
+      token: context.token,
+    });
     
     // Get all images metadata
     const images = await store.get('gallery-images', { type: 'json' }) || [];
@@ -24,7 +42,10 @@ export default async (req: Request) => {
     });
   } catch (error) {
     console.error('Error fetching images:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch images' }), {
+    return new Response(JSON.stringify({ 
+      error: 'Failed to fetch images',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json',

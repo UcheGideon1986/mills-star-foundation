@@ -6,7 +6,7 @@ import { Input } from './components/figma/ui/input';
 import { Label } from './components/figma/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/figma/ui/tabs';
 import { cloudinaryService } from './services/cloudinaryService';
-import { fetchAllData, saveGalleryImages, saveSiteImages, saveImpactImages, saveBlogPosts } from './services/blobStorage';
+import { fetchAllData as fetchBlobData, saveGalleryImages, saveSiteImages, saveImpactImages, saveBlogPosts } from './services/blobStorage';
 import { fetchAllData as fetchSimpleData, downloadDataAsJSON } from './services/simpleStorage';
 
 interface UploadedImage {
@@ -346,7 +346,7 @@ export function Admin() {
     setSyncStatus('Loading from cloud...');
     
     try {
-      const data = await fetchAllData();
+      const data = await fetchBlobData();
       
       // Convert cloud format back to local format
       if (data.images && data.images.length > 0) {
