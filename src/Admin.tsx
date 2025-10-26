@@ -97,6 +97,12 @@ export function Admin() {
   // Cloud sync state
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncStatus, setSyncStatus] = useState('');
+  
+  // Hero slideshow state
+  const [heroSlides, setHeroSlides] = useState<string[]>([]);
+  const [heroSlideFiles, setHeroSlideFiles] = useState<File[]>([]);
+  const [heroSlidePreview, setHeroSlidePreview] = useState<string[]>([]);
+  const [isUploadingSlides, setIsUploadingSlides] = useState(false);
 
   // Load images from localStorage on mount
   useEffect(() => {
@@ -275,6 +281,21 @@ export function Admin() {
       console.error('Failed to save blog hero to localStorage:', error);
     }
   }, [blogHeroTitle, blogHeroTagline]);
+
+  // Load hero slideshow images
+  useEffect(() => {
+    const storedSlides = localStorage.getItem('millsStarHeroSlides');
+    if (storedSlides) {
+      setHeroSlides(JSON.parse(storedSlides));
+    }
+  }, []);
+
+  // Save hero slideshow images
+  useEffect(() => {
+    if (heroSlides.length > 0) {
+      localStorage.setItem('millsStarHeroSlides', JSON.stringify(heroSlides));
+    }
+  }, [heroSlides]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -940,6 +961,68 @@ export function Admin() {
     }
   };
 
+  // Hero slideshow handlers
+  const handleHeroSlideSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setHeroSlideFiles(files);
+
+    // Create preview URLs
+    const urls = files.map(file => URL.createObjectURL(file));
+    setHeroSlidePreview(urls);
+  };
+
+  const handleUploadHeroSlides = async () => {
+    if (heroSlideFiles.length === 0) {
+      alert('Please select at least one image for the slideshow');
+      return;
+    }
+
+    setIsUploadingSlides(true);
+    try {
+      const uploadedUrls: string[] = [];
+
+      for (const file of heroSlideFiles) {
+        const response = await cloudinaryService.uploadImage(file);
+        uploadedUrls.push(response.secure_url);
+      }
+
+      // Add to existing slides
+      setHeroSlides([...heroSlides, ...uploadedUrls]);
+
+      // Clear selection
+      setHeroSlideFiles([]);
+      setHeroSlidePreview([]);
+
+      alert(`Successfully uploaded ${uploadedUrls.length} slide(s)!`);
+    } catch (error) {
+      console.error('Upload failed:', error);
+      alert('Failed to upload slides. Please try again.');
+    } finally {
+      setIsUploadingSlides(false);
+    }
+  };
+
+  const handleDeleteHeroSlide = (index: number) => {
+    if (confirm('Remove this slide from the slideshow?')) {
+      const updated = heroSlides.filter((_, i) => i !== index);
+      setHeroSlides(updated);
+    }
+  };
+
+  const moveSlideUp = (index: number) => {
+    if (index === 0) return;
+    const updated = [...heroSlides];
+    [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
+    setHeroSlides(updated);
+  };
+
+  const moveSlideDown = (index: number) => {
+    if (index === heroSlides.length - 1) return;
+    const updated = [...heroSlides];
+    [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
+    setHeroSlides(updated);
+  };
+
   // Filter and paginate images
   const filteredImages = images.filter(img => {
     const matchesCategory = filterCategory === 'all' || img.category === filterCategory;
@@ -1225,6 +1308,10 @@ export function Admin() {
             <TabsTrigger value="impactStats">
               <Target className="mr-2 h-4 w-4" />
               Impact Stats (4)
+            </TabsTrigger>
+            <TabsTrigger value="heroSlideshow">
+              <ImageIcon className="mr-2 h-4 w-4" />
+              Hero Slideshow
             </TabsTrigger>
           </TabsList>
 
@@ -2305,6 +2392,141 @@ export function Admin() {
                     </div>
                   </CardContent>
                 </Card>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Hero Slideshow Tab */}
+          <TabsContent value="heroSlideshow">
+            <Card>
+              <CardHeader>
+                <CardTitle>Manage Hero Slideshow</CardTitle>
+                <p className="text-sm text-gray-600 mt-2">
+                  Upload and manage images for the homepage hero slideshow. Images will auto-rotate every 5 seconds.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Upload New Slides */}
+                <Card className="border-2 border-dashed border-blue-300 bg-blue-50/50">
+                  <CardContent className="pt-6">
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="hero-slides">Upload Slideshow Images</Label>
+                        <Input
+                          id="hero-slides"
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={handleHeroSlideSelect}
+                          className="mt-2"
+                        />
+                        <p className="text-sm text-gray-600 mt-2">
+                          Select one or more images. Recommended size: 1920x600px
+                        </p>
+                      </div>
+
+                      {/* Preview Selected Images */}
+                      {heroSlidePreview.length > 0 && (
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                          {heroSlidePreview.map((url, index) => (
+                            <div key={index} className="relative aspect-video rounded-lg overflow-hidden border-2 border-blue-200">
+                              <img
+                                src={url}
+                                alt={`Preview ${index + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded text-xs">
+                                New
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <Button
+                        onClick={handleUploadHeroSlides}
+                        disabled={isUploadingSlides || heroSlideFiles.length === 0}
+                        className="w-full"
+                      >
+                        {isUploadingSlides ? 'Uploading...' : `Upload ${heroSlideFiles.length} Slide(s)`}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Current Slideshow */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Current Slideshow ({heroSlides.length} {heroSlides.length === 1 ? 'slide' : 'slides'})
+                  </h3>
+
+                  {heroSlides.length === 0 ? (
+                    <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed">
+                      <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-600">No slideshow images yet. Upload some above!</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {heroSlides.map((slide, index) => (
+                        <Card key={index} className="overflow-hidden">
+                          <div className="relative aspect-video">
+                            <img
+                              src={slide}
+                              alt={`Slide ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute top-2 left-2 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
+                              Slide {index + 1}
+                            </div>
+                          </div>
+                          <CardContent className="p-4">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => moveSlideUp(index)}
+                                  disabled={index === 0}
+                                  title="Move up"
+                                >
+                                  ↑
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => moveSlideDown(index)}
+                                  disabled={index === heroSlides.length - 1}
+                                  title="Move down"
+                                >
+                                  ↓
+                                </Button>
+                              </div>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => handleDeleteHeroSlide(index)}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Tips */}
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h3 className="font-semibold text-blue-900 mb-2">💡 Slideshow Tips:</h3>
+                  <ul className="text-sm text-blue-800 space-y-1">
+                    <li>• Images automatically rotate every 5 seconds</li>
+                    <li>• Use high-quality images (1920x600px recommended)</li>
+                    <li>• Show your foundation's impact with powerful photos</li>
+                    <li>• Reorder slides using the ↑ ↓ buttons</li>
+                    <li>• Visitors can manually navigate using arrows</li>
+                  </ul>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

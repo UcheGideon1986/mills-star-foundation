@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Heart, Users, BookOpen, Activity, Target, ArrowRight } from 'lucide-react';
+import { Heart, Users, BookOpen, Activity, Target, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './components/figma/ui/button';
 import { Card, CardContent } from './components/figma/ui/card';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
@@ -183,16 +183,67 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
     icon: getIcon(stat.icon)
   }));
 
+  // Hero slideshow state
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [heroSlides, setHeroSlides] = useState<string[]>([]);
+
+  // Load hero slideshow images
+  useEffect(() => {
+    const storedSlides = localStorage.getItem('millsStarHeroSlides');
+    if (storedSlides) {
+      setHeroSlides(JSON.parse(storedSlides));
+    } else {
+      // Default slideshow images
+      const defaultSlides = [
+        siteImages['heroHome'] || "https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920"
+      ];
+      setHeroSlides(defaultSlides);
+    }
+  }, [siteImages]);
+
+  // Auto-advance slideshow every 5 seconds
+  useEffect(() => {
+    if (heroSlides.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [heroSlides.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center">
-        <ImageWithFallback
-          src={siteImages['heroHome'] || "https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920"}
-          alt="Mills Star Foundation - Empowering the Differently Abled"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />
+      {/* Hero Section with Slideshow */}
+      <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
+        {/* Slideshow Images */}
+        {heroSlides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <ImageWithFallback
+              src={slide}
+              alt={`Mills Star Foundation - Slide ${index + 1}`}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+        ))}
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70 z-10" />
+        
+        {/* Content */}
         <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="text-white mb-6">Empowering the Differently Abled</h1>
           <p className="text-xl mb-8">
@@ -207,6 +258,42 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
             </Button>
           </div>
         </div>
+
+        {/* Navigation Arrows (only show if multiple slides) */}
+        {heroSlides.length > 1 && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition-all"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition-all"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+
+            {/* Slide Indicators */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+              {heroSlides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    index === currentSlide
+                      ? 'bg-white w-8'
+                      : 'bg-white/50 hover:bg-white/75'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </section>
 
       {/* Impact Stats */}
