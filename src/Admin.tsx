@@ -231,6 +231,17 @@ export function Admin() {
     }
   }, [images]);
 
+  // Save hero slides to localStorage
+  useEffect(() => {
+    if (heroSlides.length > 0) {
+      try {
+        localStorage.setItem('millsStarHeroSlides', JSON.stringify(heroSlides));
+      } catch (error) {
+        console.error('Failed to save hero slides to localStorage:', error);
+      }
+    }
+  }, [heroSlides]);
+
   // Save site images to localStorage
   useEffect(() => {
     if (Object.keys(siteImages).length > 0) {
@@ -571,10 +582,11 @@ export function Admin() {
     const imageName = imageToDelete?.title || 'this image';
     
     if (confirm(`Are you sure you want to delete "${imageName}"?\n\nThis will remove it from:\n• Gallery display\n• Your image library\n• All pages where it appears\n\nThis action cannot be undone.`)) {
-      setImages(prev => prev.filter(img => img.id !== id));
+      const updatedImages = images.filter(img => img.id !== id);
+      setImages(updatedImages);
       
-      // Show success message
-      alert(`✅ Image "${imageName}" has been deleted successfully!`);
+      // Show success message with sync reminder
+      alert(`✅ Image "${imageName}" has been deleted successfully!\n\n📥 IMPORTANT: To sync to other devices:\n1. Download JSON (green button at top)\n2. Replace public/data/images.json\n3. Push to GitHub\n\nOtherwise, changes only appear on THIS device.`);
     }
   };
 
@@ -1022,6 +1034,8 @@ export function Admin() {
     if (confirm('Remove this slide from the slideshow?')) {
       const updated = heroSlides.filter((_, i) => i !== index);
       setHeroSlides(updated);
+      
+      alert(`✅ Slide removed from slideshow!\n\n📥 IMPORTANT: To sync to other devices:\n1. Download JSON (green button at top)\n2. Replace public/data/images.json\n3. Push to GitHub\n\nOtherwise, changes only appear on THIS device.`);
     }
   };
 
