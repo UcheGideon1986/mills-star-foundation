@@ -44,6 +44,12 @@ class CloudinaryService {
       );
     }
 
+    // Check file size (max 10MB for free tier)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      throw new Error(`Image too large. Maximum size is 10MB. Your image is ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+    }
+
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', this.uploadPreset);
@@ -61,23 +67,37 @@ class CloudinaryService {
     formData.append('quality', 'auto');
     formData.append('fetch_format', 'auto');
 
-    try {
-      const response = await fetch(this.apiUrl, {
-        method: 'POST',
-        body: formData,
-      });
+    // Retry logic
+    const maxRetries = 3;
+    let lastError: Error | null = null;
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'Upload failed');
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await fetch(this.apiUrl, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error?.message || `Upload failed with status ${response.status}`);
+        }
+
+        const data: CloudinaryUploadResponse = await response.json();
+        return data;
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error('Unknown error');
+        console.error(`Cloudinary upload attempt ${attempt}/${maxRetries} failed:`, error);
+        
+        // Wait before retry (exponential backoff)
+        if (attempt < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
       }
-
-      const data: CloudinaryUploadResponse = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Cloudinary upload error:', error);
-      throw error;
     }
+
+    // All retries failed
+    throw lastError || new Error('Upload failed after multiple attempts');
   }
 
   /**
