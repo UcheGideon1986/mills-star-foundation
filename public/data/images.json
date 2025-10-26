@@ -1,82 +1,369 @@
 {
-  "images": [],
+  "images": [
+    {
+      "id": "mills-star-foundation/gallery/gfbksctiba7yds5foaar",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472475/mills-star-foundation/gallery/gfbksctiba7yds5foaar.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/i5y5yptpw0z18u5qaiv0",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472478/mills-star-foundation/gallery/i5y5yptpw0z18u5qaiv0.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/gc99dbfuiwynq8ujkuzb",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472480/mills-star-foundation/gallery/gc99dbfuiwynq8ujkuzb.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/ha8lkdkijijl6cvevjiv",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472481/mills-star-foundation/gallery/ha8lkdkijijl6cvevjiv.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/sawsqvvqu0c9wvqzqz8s",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472483/mills-star-foundation/gallery/sawsqvvqu0c9wvqzqz8s.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/m20yychozquiw8ofixhs",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472484/mills-star-foundation/gallery/m20yychozquiw8ofixhs.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/c6xx5azfe9ifjcgkc2dx",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472486/mills-star-foundation/gallery/c6xx5azfe9ifjcgkc2dx.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/dotaaf8bai2oiqqijy4s",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472487/mills-star-foundation/gallery/dotaaf8bai2oiqqijy4s.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/kvtwdlw59ksasncmaomx",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472488/mills-star-foundation/gallery/kvtwdlw59ksasncmaomx.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/qr9tzoseeiy7i5frdwa6",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472491/mills-star-foundation/gallery/qr9tzoseeiy7i5frdwa6.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/xco887yjry04fqdeuyyz",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472495/mills-star-foundation/gallery/xco887yjry04fqdeuyyz.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/lz8jkisejp9xmm5arasc",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472497/mills-star-foundation/gallery/lz8jkisejp9xmm5arasc.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/gfredygou3duqw5kbrti",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472498/mills-star-foundation/gallery/gfredygou3duqw5kbrti.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/v1molccnhkjcvet7kxs5",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472500/mills-star-foundation/gallery/v1molccnhkjcvet7kxs5.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/qci8jko4zlhsijv5omvo",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472502/mills-star-foundation/gallery/qci8jko4zlhsijv5omvo.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/syli9fftw3qbnfavnyqk",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472504/mills-star-foundation/gallery/syli9fftw3qbnfavnyqk.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/ofasghzuf8ji1jdyrqrb",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472505/mills-star-foundation/gallery/ofasghzuf8ji1jdyrqrb.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/pww21avef42gitwuncva",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472507/mills-star-foundation/gallery/pww21avef42gitwuncva.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/stlcnh74yyknpdtqvk5x",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472509/mills-star-foundation/gallery/stlcnh74yyknpdtqvk5x.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/fivxboop4a7n63mjs6rq",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472510/mills-star-foundation/gallery/fivxboop4a7n63mjs6rq.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/jgrwl6dwd0esyz3k6vni",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472512/mills-star-foundation/gallery/jgrwl6dwd0esyz3k6vni.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/kwjqhapmhlejqh98y3xm",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472514/mills-star-foundation/gallery/kwjqhapmhlejqh98y3xm.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/adjldv37cn5fggbzzini",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472517/mills-star-foundation/gallery/adjldv37cn5fggbzzini.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/ndom7sp4trfbwjsnqjzw",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472519/mills-star-foundation/gallery/ndom7sp4trfbwjsnqjzw.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/y1wfmw1ddfdvfji9udka",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472520/mills-star-foundation/gallery/y1wfmw1ddfdvfji9udka.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/lq2hqmbqgpes3aoqhgni",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472522/mills-star-foundation/gallery/lq2hqmbqgpes3aoqhgni.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/tfbq3hl9o71uvv3udo5s",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472523/mills-star-foundation/gallery/tfbq3hl9o71uvv3udo5s.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/j4tdwytlft2msfzt855v",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472526/mills-star-foundation/gallery/j4tdwytlft2msfzt855v.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/pltej7vvefmvhwvyqfsr",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472528/mills-star-foundation/gallery/pltej7vvefmvhwvyqfsr.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/uj2irqhble2x4pmnb5yn",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472530/mills-star-foundation/gallery/uj2irqhble2x4pmnb5yn.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/yr7jteauiu1vufneikbi",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472531/mills-star-foundation/gallery/yr7jteauiu1vufneikbi.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/cz5gmpyobjdg5cycoc71",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472533/mills-star-foundation/gallery/cz5gmpyobjdg5cycoc71.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/e7fcaazz5a80kowkmr5m",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472535/mills-star-foundation/gallery/e7fcaazz5a80kowkmr5m.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/fevxwuvun27uwnad4hiz",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472537/mills-star-foundation/gallery/fevxwuvun27uwnad4hiz.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/hgazqtorwbzcn6hppqmt",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472538/mills-star-foundation/gallery/hgazqtorwbzcn6hppqmt.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/whkrdmuzcaeclvceft69",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472540/mills-star-foundation/gallery/whkrdmuzcaeclvceft69.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/snrg4qo7bejwpk39wufd",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472541/mills-star-foundation/gallery/snrg4qo7bejwpk39wufd.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.901Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/caouxzaih517pudxlioe",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472543/mills-star-foundation/gallery/caouxzaih517pudxlioe.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/o2psuqz7workrfpsvlqa",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472545/mills-star-foundation/gallery/o2psuqz7workrfpsvlqa.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/vauemxmrqfcqpig2i4k3",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472546/mills-star-foundation/gallery/vauemxmrqfcqpig2i4k3.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/eawqjirano8qyov6lj0r",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472548/mills-star-foundation/gallery/eawqjirano8qyov6lj0r.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/rid8uunr66areldducsd",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472550/mills-star-foundation/gallery/rid8uunr66areldducsd.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/cat09mfbtrpdyyr1e5jt",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472552/mills-star-foundation/gallery/cat09mfbtrpdyyr1e5jt.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/su3d7dlz2sggexqzgieg",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472553/mills-star-foundation/gallery/su3d7dlz2sggexqzgieg.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/ssloutdttwc71cd278je",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472555/mills-star-foundation/gallery/ssloutdttwc71cd278je.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/ymjrw61xolam3gs7woeu",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472625/mills-star-foundation/gallery/ymjrw61xolam3gs7woeu.jpg",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/wl8xq5oztslufxsixus3",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472625/mills-star-foundation/gallery/wl8xq5oztslufxsixus3.jpg",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/i1ppj2iapfjoykwpv827",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472626/mills-star-foundation/gallery/i1ppj2iapfjoykwpv827.jpg",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/ptdznbujmx30tkzpnki7",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472627/mills-star-foundation/gallery/ptdznbujmx30tkzpnki7.jpg",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    },
+    {
+      "id": "mills-star-foundation/gallery/y9hoifrqfqcqtnp4erbv",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472707/mills-star-foundation/gallery/y9hoifrqfqcqtnp4erbv.png",
+      "alt": "Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
+    }
+  ],
   "siteImages": {
-    "heroHome": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470677/mills-star-foundation/site-images/o4jwlbwzezmxxipircot.jpg"
+    "heroHome": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470677/mills-star-foundation/site-images/o4jwlbwzezmxxipircot.jpg",
+    "aboutHero": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470724/mills-star-foundation/site-images/qeyuwmkjw2mdfxwzq2ct.png",
+    "galleryHero": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470756/mills-star-foundation/site-images/hqwgnttcsx3wfduknoh5.png",
+    "galleryFeatured1": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470772/mills-star-foundation/site-images/v69tdqgltctjv1le6sos.png",
+    "blogHero": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470796/mills-star-foundation/site-images/hwbw3btvkiscstthzq1z.jpg",
+    "donateHero": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470902/mills-star-foundation/site-images/xi3ls1esv3yefnmmxzic.png",
+    "donateImpact": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470950/mills-star-foundation/site-images/lparij9wrmby3ur9jyuw.png"
   },
   "impactImages": [
     {
-      "id": "impact-0",
-      "url": "",
-      "alt": "Impact Image 1",
-      "uploadedAt": "2025-10-26T09:23:57.047Z"
+      "id": "mills-star-foundation/impact-images/zj3tkvnl5a6c5dmeexbz",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761471557/mills-star-foundation/impact-images/zj3tkvnl5a6c5dmeexbz.png",
+      "alt": "Impact Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
     },
     {
-      "id": "impact-1",
-      "url": "",
-      "alt": "Impact Image 2",
-      "uploadedAt": "2025-10-26T09:23:57.047Z"
+      "id": "mills-star-foundation/impact-images/m90tnfs8juvx0rtiqcql",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761471720/mills-star-foundation/impact-images/m90tnfs8juvx0rtiqcql.png",
+      "alt": "Impact Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
     },
     {
-      "id": "impact-2",
-      "url": "",
-      "alt": "Impact Image 3",
-      "uploadedAt": "2025-10-26T09:23:57.047Z"
+      "id": "mills-star-foundation/impact-images/mzlz9bglulsttlyxgpmm",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761498988/mills-star-foundation/impact-images/mzlz9bglulsttlyxgpmm.jpg",
+      "alt": "Impact Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
     },
     {
-      "id": "impact-3",
-      "url": "",
-      "alt": "Impact Image 4",
-      "uploadedAt": "2025-10-26T09:23:57.047Z"
+      "id": "mills-star-foundation/impact-images/gjl9khd9kbgekfyy1jrx",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472006/mills-star-foundation/impact-images/gjl9khd9kbgekfyy1jrx.png",
+      "alt": "Impact Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
     },
     {
-      "id": "impact-4",
-      "url": "",
-      "alt": "Impact Image 5",
-      "uploadedAt": "2025-10-26T09:23:57.047Z"
+      "id": "mills-star-foundation/impact-images/mettlzavq4aao1rwwfr0",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472173/mills-star-foundation/impact-images/mettlzavq4aao1rwwfr0.png",
+      "alt": "Impact Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
     },
     {
-      "id": "impact-5",
-      "url": "",
-      "alt": "Impact Image 6",
-      "uploadedAt": "2025-10-26T09:23:57.047Z"
+      "id": "mills-star-foundation/impact-images/qorhgzau2f3ugtx0yf2s",
+      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472250/mills-star-foundation/impact-images/qorhgzau2f3ugtx0yf2s.png",
+      "alt": "Impact Image",
+      "uploadedAt": "2025-10-26T17:49:10.902Z"
     }
   ],
   "blogPosts": [
+    {
+      "id": "blog-1761472893238",
+      "title": "just concluded Wheelchair Tennis Championship Held in Lagos ",
+      "excerpt": "Mr Adedotun Francis Mills Founder of MILLS STAR FOUNDATION Congratulating",
+      "content": "the champion and winner of the wheelchair Tennis Tournament Held in Lagos Recently ",
+      "author": "Mills Star Foundation",
+      "date": "October 26, 2025"
+    },
     {
       "id": "blog-1",
       "title": "Wheelchair Basketball Tournament 2024: Celebrating Athletic Excellence",
       "excerpt": "Our annual wheelchair basketball tournament brought together athletes from across Nigeria and Ghana, showcasing incredible talent and determination.",
       "content": "Our annual wheelchair basketball tournament brought together athletes from across Nigeria and Ghana, showcasing incredible talent and determination. The event featured teams from multiple countries competing in a spirit of sportsmanship and excellence.",
       "author": "Mills Star Foundation",
-      "date": "October 5, 2024",
-      "imageUrl": "https://images.unsplash.com/photo-1657145537587-bc61af46050c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGVlbGNoYWlyJTIwYmFza2V0YmFsbHxlbnwxfHx8fDE3NjA2ODU2Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080"
-    },
-    {
-      "id": "blog-2",
-      "title": "Empowering Communities Through Reading: 1,000 Books Donated",
-      "excerpt": "Thanks to our partners, we have distributed over 1,000 books to differently abled individuals, opening doors to knowledge and imagination.",
-      "content": "Thanks to our partners, we have distributed over 1,000 books to differently abled individuals, opening doors to knowledge and imagination. This initiative has transformed lives and created opportunities for learning and growth.",
-      "author": "Mills Star Foundation",
-      "date": "September 20, 2024",
-      "imageUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw1fHxib29rcyUyMGVkdWNhdGlvbnxlbnwxfHx8fDE3NjA2ODU2Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080"
-    },
-    {
-      "id": "blog-3",
-      "title": "Vocational Training Success Stories: Building Independent Futures",
-      "excerpt": "Meet the graduates of our vocational training programs who are now running successful businesses and contributing to their communities.",
-      "content": "Meet the graduates of our vocational training programs who are now running successful businesses and contributing to their communities. Their success stories inspire us to continue our mission of empowerment through education and training.",
-      "author": "Mills Star Foundation",
-      "date": "August 15, 2024",
-      "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2b2NhdGlvbmFsJTIwdHJhaW5pbmd8ZW58MXx8fHwxNzYwNjg1NjI4fDA&ixlib=rb-4.1.0&q=80&w=1080"
-    },
-    {
-      "id": "blog-4",
-      "title": "Expanding Our Reach: New Programs Coming to West Africa",
-      "excerpt": "We are excited to announce plans to expand our operations throughout West Africa, bringing hope and opportunity to more communities.",
-      "content": "We are excited to announce plans to expand our operations throughout West Africa, bringing hope and opportunity to more communities. This expansion will allow us to serve more people and make a greater impact across the region.",
-      "author": "Mills Star Foundation",
-      "date": "July 28, 2024",
-      "imageUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2ElMjBtYXB8ZW58MXx8fHwxNzYwNjg1NjI4fDA&ixlib=rb-4.1.0&q=80&w=1080"
+      "date": "October 5, 2024"
     },
     {
       "id": "blog-5",
@@ -84,18 +371,36 @@
       "excerpt": "Our annual health and hygiene education events provide essential knowledge and supplies to help communities maintain wellness.",
       "content": "Our annual health and hygiene education events provide essential knowledge and supplies to help communities maintain wellness. We believe that health education is fundamental to empowering individuals and creating sustainable change.",
       "author": "Mills Star Foundation",
-      "date": "June 12, 2024",
-      "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjBlZHVjYXRpb258ZW58MXx8fHwxNzYwNjg1NjI4fDA&ixlib=rb-4.1.0&q=80&w=1080"
+      "date": "June 12, 2024"
     },
     {
       "id": "blog-6",
-      "title": "Wheelchair Tennis Championship: Rising Stars of Ghana",
-      "excerpt": "Young athletes demonstrated remarkable skill and sportsmanship at this years wheelchair tennis championship in Accra.",
+      "title": "Wheelchair Tennis Championship: Rising Stars of Nigeria",
+      "excerpt": "Young athletes demonstrated remarkable skill and sportsmanship at this years wheelchair tennis championship in Lagos.",
       "content": "Young athletes demonstrated remarkable skill and sportsmanship at this years wheelchair tennis championship in Accra. The tournament showcased the incredible talent and dedication of our athletes, inspiring the next generation.",
       "author": "Mills Star Foundation",
-      "date": "May 3, 2024",
-      "imageUrl": "https://images.unsplash.com/photo-1740572497508-e5d62c77f4bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGVlbGNoYWlyJTIwc3BvcnRzJTIwY29tbXVuaXR5fGVufDF8fHx8MTc2MDY4NTYyN3ww&ixlib=rb-4.1.0&q=80&w=1080"
+      "date": "May 3, 2024"
     }
   ],
-  "lastUpdated": "2025-10-26T09:24:40.775Z"
+  "heroSlides": [
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494035/o1aoh0ha9zu7mt7dgt35.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494102/bufb7vh89lj3wq7xkzgj.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494122/azgfvvdhlvgvqjufgrak.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494123/fcfzpgoneokrklxvz9zf.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494140/iwyebifcxxvbhmeuvqyv.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494156/gwkhdmyxavfelnsovixx.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494240/qe9vykzsopqc1kzi9h7q.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494241/s4un3w1qffnpuojdgqqq.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494242/yvcrwupep4cqvzld0utt.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494243/j2rcvkaguurxkvrimmf5.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494244/swgbwlipbaclzoex23us.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494246/jgba21rftzpslddbutwf.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494247/zrpvur6vq99cwgywymxq.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494268/n6fssvtnplpzmewb3wbk.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494289/cgeozohiknjyoa44jidr.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494311/vdq2mjvqvdlpaxymtnjd.jpg",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494339/yuhxe57xixssi9odcx3l.webp",
+    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494354/nex7xpgoosogormx5lkh.jpg"
+  ],
+  "lastUpdated": "2025-10-26T17:49:10.902Z"
 }
