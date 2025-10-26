@@ -797,7 +797,7 @@ export function Admin() {
           try {
             const result = await cloudinaryService.uploadImage(blogImageFile, {
               folder: 'mills-star-foundation/blog',
-              tags: [blogCategory.toLowerCase()]
+              tags: blogCategory ? [blogCategory.toLowerCase()] : ['blog']
             });
             imageUrl = result.secure_url;
             cloudinaryPublicId = result.public_id;
@@ -824,10 +824,10 @@ export function Admin() {
           month: 'long', 
           day: 'numeric' 
         }),
-        author: blogAuthor,
+        author: blogAuthor || 'Mills Star Foundation',
         image: imageUrl,
         cloudinaryPublicId,
-        category: blogCategory,
+        category: blogCategory || 'News',
         published: blogPublished,
       };
 
