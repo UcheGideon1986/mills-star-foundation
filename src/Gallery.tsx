@@ -3,6 +3,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card } from './components/figma/ui/card';
 import { Button } from './components/figma/ui/button';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
+import { fetchAllData } from './services/blobStorage';
 
 interface UploadedImage {
   id: string;
@@ -18,12 +19,35 @@ export function Gallery() {
   const [lightboxImage, setLightboxImage] = useState<UploadedImage | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number>(0);
 
-  // Load images from localStorage
+  // Load images from cloud (with localStorage fallback)
   useEffect(() => {
-    const loadImages = () => {
-      const storedImages = localStorage.getItem('millsStarImages');
-      if (storedImages) {
-        setImages(JSON.parse(storedImages));
+    const loadImages = async () => {
+      try {
+        // Try to fetch from cloud first
+        const data = await fetchAllData();
+        if (data.images && data.images.length > 0) {
+          const localImages = data.images.map((img: any) => ({
+            id: img.id,
+            url: img.url,
+            title: img.alt || 'Image',
+            category: 'gallery',
+            uploadDate: img.uploadedAt || new Date().toISOString(),
+          }));
+          setImages(localImages);
+        } else {
+          // Fallback to localStorage
+          const storedImages = localStorage.getItem('millsStarImages');
+          if (storedImages) {
+            setImages(JSON.parse(storedImages));
+          }
+        }
+      } catch (error) {
+        console.error('Error loading images from cloud:', error);
+        // Fallback to localStorage
+        const storedImages = localStorage.getItem('millsStarImages');
+        if (storedImages) {
+          setImages(JSON.parse(storedImages));
+        }
       }
     };
 
@@ -37,7 +61,7 @@ export function Gallery() {
     window.addEventListener('storage', handleStorageChange);
     
     // Also check periodically for updates
-    const interval = setInterval(loadImages, 2000);
+    const interval = setInterval(loadImages, 5000);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);

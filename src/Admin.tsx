@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Upload, X, Image as ImageIcon, Trash2, Eye, Settings, Search, Filter, ChevronLeft, ChevronRight, BookOpen, Edit, ToggleLeft, ToggleRight, Target, Users, Activity, Heart } from 'lucide-react';
+import { Upload, X, Image as ImageIcon, Trash2, Eye, Settings, Search, Filter, ChevronLeft, ChevronRight, BookOpen, Edit, ToggleLeft, ToggleRight, Target, Users, Activity, Heart, Cloud, Download } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './components/figma/ui/card';
 import { Button } from './components/figma/ui/button';
 import { Input } from './components/figma/ui/input';
 import { Label } from './components/figma/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/figma/ui/tabs';
 import { cloudinaryService } from './services/cloudinaryService';
+import { fetchAllData, saveGalleryImages, saveSiteImages, saveImpactImages, saveBlogPosts } from './services/blobStorage';
 
 interface UploadedImage {
   id: string;
@@ -91,6 +92,10 @@ export function Admin() {
   // Blog hero state
   const [blogHeroTitle, setBlogHeroTitle] = useState('Our Blog');
   const [blogHeroTagline, setBlogHeroTagline] = useState('Stories of impact, hope, and empowerment');
+  
+  // Cloud sync state
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncStatus, setSyncStatus] = useState('');
 
   // Load images from localStorage on mount
   useEffect(() => {
@@ -277,6 +282,125 @@ export function Admin() {
       setIsAuthenticated(true);
     } else {
       alert('Incorrect password');
+    }
+  };
+
+  // Sync localStorage data to Netlify Blobs (cloud storage)
+  const handleSyncToCloud = async () => {
+    setIsSyncing(true);
+    setSyncStatus('Syncing to cloud...');
+    
+    try {
+      // Get data from localStorage
+      const localImages = JSON.parse(localStorage.getItem('millsStarImages') || '[]');
+      const localSiteImages = JSON.parse(localStorage.getItem('millsStarSiteImages') || '{}');
+      const localImpactImages = JSON.parse(localStorage.getItem('millsStarImpactImages') || '[]');
+      const localBlogPosts = JSON.parse(localStorage.getItem('millsStarBlogPosts') || '[]');
+      
+      // Convert to cloud format and save
+      const cloudImages = localImages.map((img: any) => ({
+        id: img.id,
+        url: img.url,
+        alt: img.title || 'Image',
+        uploadedAt: img.uploadDate || new Date().toISOString(),
+      }));
+      
+      const cloudImpactImages = localImpactImages.map((img: any) => ({
+        id: img.id,
+        url: img.url,
+        alt: img.title || 'Impact Image',
+        uploadedAt: img.uploadDate || new Date().toISOString(),
+      }));
+      
+      const cloudBlogPosts = localBlogPosts.map((post: any) => ({
+        id: post.id,
+        title: post.title,
+        excerpt: post.excerpt,
+        content: post.content,
+        author: post.author,
+        date: post.date,
+        imageUrl: post.image,
+      }));
+      
+      // Save to cloud
+      await saveGalleryImages(cloudImages);
+      await saveSiteImages(localSiteImages);
+      await saveImpactImages(cloudImpactImages);
+      await saveBlogPosts(cloudBlogPosts);
+      
+      setSyncStatus('✅ Successfully synced to cloud! Images now visible on all devices.');
+      setTimeout(() => setSyncStatus(''), 5000);
+    } catch (error) {
+      console.error('Sync error:', error);
+      setSyncStatus('❌ Sync failed. Please try again.');
+      setTimeout(() => setSyncStatus(''), 5000);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  // Load data from Netlify Blobs (cloud storage)
+  const handleLoadFromCloud = async () => {
+    setIsSyncing(true);
+    setSyncStatus('Loading from cloud...');
+    
+    try {
+      const data = await fetchAllData();
+      
+      // Convert cloud format back to local format
+      if (data.images && data.images.length > 0) {
+        const localImages = data.images.map((img: any) => ({
+          id: img.id,
+          url: img.url,
+          title: img.alt || 'Image',
+          category: 'gallery',
+          uploadDate: img.uploadedAt || new Date().toISOString(),
+        }));
+        setImages(localImages);
+        localStorage.setItem('millsStarImages', JSON.stringify(localImages));
+      }
+      
+      if (data.siteImages && Object.keys(data.siteImages).length > 0) {
+        setSiteImages(data.siteImages);
+        localStorage.setItem('millsStarSiteImages', JSON.stringify(data.siteImages));
+      }
+      
+      if (data.impactImages && data.impactImages.length > 0) {
+        const localImpactImages = data.impactImages.map((img: any) => ({
+          id: img.id,
+          url: img.url,
+          title: img.alt || 'Impact Image',
+          category: 'impact',
+          uploadDate: img.uploadedAt || new Date().toISOString(),
+        }));
+        setImpactImages(localImpactImages);
+        localStorage.setItem('millsStarImpactImages', JSON.stringify(localImpactImages));
+      }
+      
+      if (data.blogPosts && data.blogPosts.length > 0) {
+        const localBlogPosts = data.blogPosts.map((post: any) => ({
+          id: post.id,
+          title: post.title,
+          excerpt: post.excerpt,
+          content: post.content,
+          author: post.author,
+          date: post.date,
+          image: post.imageUrl || '',
+          category: 'News',
+          published: true,
+        }));
+        setBlogPosts(localBlogPosts);
+        localStorage.setItem('millsStarBlogPosts', JSON.stringify(localBlogPosts));
+      }
+      
+      setSyncStatus('✅ Successfully loaded from cloud!');
+      setTimeout(() => setSyncStatus(''), 5000);
+    } catch (error) {
+      console.error('Load error:', error);
+      setSyncStatus('❌ Load failed. Please try again.');
+      setTimeout(() => setSyncStatus(''), 5000);
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -982,6 +1106,47 @@ export function Admin() {
             Logout
           </Button>
         </div>
+
+        {/* Cloud Sync Controls */}
+        <Card className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200">
+          <CardContent className="pt-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-blue-900 mb-2 flex items-center gap-2">
+                  <Cloud className="h-5 w-5" />
+                  Cloud Storage Sync
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Sync your images to the cloud so they're visible on all devices. Upload images here first, then click "Sync to Cloud".
+                </p>
+                {syncStatus && (
+                  <p className="mt-2 text-sm font-medium text-blue-700">
+                    {syncStatus}
+                  </p>
+                )}
+              </div>
+              <div className="flex gap-3">
+                <Button
+                  onClick={handleSyncToCloud}
+                  disabled={isSyncing}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  <Cloud className="mr-2 h-4 w-4" />
+                  {isSyncing ? 'Syncing...' : 'Sync to Cloud'}
+                </Button>
+                <Button
+                  onClick={handleLoadFromCloud}
+                  disabled={isSyncing}
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  {isSyncing ? 'Loading...' : 'Load from Cloud'}
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         <Tabs defaultValue="upload" className="space-y-6">
           <TabsList>

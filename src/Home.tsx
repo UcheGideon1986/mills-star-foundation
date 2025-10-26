@@ -3,6 +3,7 @@ import { Heart, Users, BookOpen, Activity, Target, ArrowRight } from 'lucide-rea
 import { Button } from './components/figma/ui/button';
 import { Card, CardContent } from './components/figma/ui/card';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
+import { fetchAllData } from './services/blobStorage';
 
 interface UploadedImage {
   id: string;
@@ -50,26 +51,77 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
     },
   ];
 
-  // Load images from localStorage
+  // Load images from cloud (with localStorage fallback)
   useEffect(() => {
-    const loadImages = () => {
-      const storedImages = localStorage.getItem('millsStarImages');
-      if (storedImages) {
-        const images = JSON.parse(storedImages);
-        // Get only the latest 6 images for home page
-        setUploadedImages(images.slice(-6).reverse());
+    const loadImages = async () => {
+      try {
+        // Try to fetch from cloud first
+        const data = await fetchAllData();
+        
+        if (data.images && data.images.length > 0) {
+          const localImages = data.images.map((img: any) => ({
+            id: img.id,
+            url: img.url,
+            title: img.alt || 'Image',
+            category: 'gallery',
+            uploadDate: img.uploadedAt || new Date().toISOString(),
+          }));
+          // Get only the latest 6 images for home page
+          setUploadedImages(localImages.slice(-6).reverse());
+        } else {
+          // Fallback to localStorage
+          const storedImages = localStorage.getItem('millsStarImages');
+          if (storedImages) {
+            const images = JSON.parse(storedImages);
+            setUploadedImages(images.slice(-6).reverse());
+          }
+        }
+        
+        if (data.siteImages && Object.keys(data.siteImages).length > 0) {
+          setSiteImages(data.siteImages);
+        } else {
+          const storedSiteImages = localStorage.getItem('millsStarSiteImages');
+          if (storedSiteImages) {
+            setSiteImages(JSON.parse(storedSiteImages));
+          }
+        }
+
+        if (data.impactImages && data.impactImages.length > 0) {
+          const localImpactImages = data.impactImages.map((img: any) => ({
+            id: img.id,
+            url: img.url,
+            title: img.alt || 'Impact Image',
+            category: 'impact',
+            uploadDate: img.uploadedAt || new Date().toISOString(),
+          }));
+          setImpactImages(localImpactImages);
+        } else {
+          const storedImpactImages = localStorage.getItem('millsStarImpactImages');
+          if (storedImpactImages) {
+            setImpactImages(JSON.parse(storedImpactImages));
+          }
+        }
+      } catch (error) {
+        console.error('Error loading from cloud:', error);
+        // Fallback to localStorage
+        const storedImages = localStorage.getItem('millsStarImages');
+        if (storedImages) {
+          const images = JSON.parse(storedImages);
+          setUploadedImages(images.slice(-6).reverse());
+        }
+        
+        const storedSiteImages = localStorage.getItem('millsStarSiteImages');
+        if (storedSiteImages) {
+          setSiteImages(JSON.parse(storedSiteImages));
+        }
+
+        const storedImpactImages = localStorage.getItem('millsStarImpactImages');
+        if (storedImpactImages) {
+          setImpactImages(JSON.parse(storedImpactImages));
+        }
       }
       
-      const storedSiteImages = localStorage.getItem('millsStarSiteImages');
-      if (storedSiteImages) {
-        setSiteImages(JSON.parse(storedSiteImages));
-      }
-
-      const storedImpactImages = localStorage.getItem('millsStarImpactImages');
-      if (storedImpactImages) {
-        setImpactImages(JSON.parse(storedImpactImages));
-      }
-
+      // Impact stats still from localStorage (not in cloud yet)
       const storedImpactStats = localStorage.getItem('millsStarImpactStats');
       if (storedImpactStats) {
         setCustomImpactStats(JSON.parse(storedImpactStats));
