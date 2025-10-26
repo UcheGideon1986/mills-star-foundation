@@ -824,10 +824,10 @@ export function Admin() {
           month: 'long', 
           day: 'numeric' 
         }),
-        author: blogAuthor || 'Mills Star Foundation',
+        author: blogAuthor,
         image: imageUrl,
         cloudinaryPublicId,
-        category: blogCategory || 'News',
+        category: blogCategory,
         published: blogPublished,
       };
 
