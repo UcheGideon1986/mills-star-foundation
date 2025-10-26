@@ -23,6 +23,7 @@ interface StorageData {
   siteImages: Record<string, string>;
   impactImages: UploadedImage[];
   blogPosts: BlogPost[];
+  heroSlides?: string[];
   lastUpdated: string;
 }
 
@@ -61,6 +62,7 @@ export function exportLocalStorageData(): string {
   const siteImages = JSON.parse(localStorage.getItem('millsStarSiteImages') || '{}');
   const impactImages = JSON.parse(localStorage.getItem('millsStarImpactImages') || '[]');
   const blogPosts = JSON.parse(localStorage.getItem('millsStarBlogPosts') || '[]');
+  const heroSlides = JSON.parse(localStorage.getItem('millsStarHeroSlides') || '[]');
   
   // Convert to cloud format
   const cloudImages = images.map((img: any) => ({
@@ -92,6 +94,7 @@ export function exportLocalStorageData(): string {
     siteImages: siteImages,
     impactImages: cloudImpactImages,
     blogPosts: cloudBlogPosts,
+    heroSlides: heroSlides.length > 0 ? heroSlides : undefined,
     lastUpdated: new Date().toISOString(),
   };
   

@@ -22,16 +22,32 @@ export function Blog() {
   const [blogHeroTagline, setBlogHeroTagline] = useState('Stories of impact, hope, and empowerment');
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
-  // Load blog posts and hero text from localStorage
+  // Load blog posts and hero text from JSON file first, then localStorage
   useEffect(() => {
-    const loadBlogData = () => {
-      const storedPosts = localStorage.getItem('millsStarBlogPosts');
-      if (storedPosts) {
-        const posts = JSON.parse(storedPosts);
-        // Only show published posts
-        setCustomBlogPosts(posts.filter((post: BlogPost) => post.published));
+    const loadBlogData = async () => {
+      try {
+        // Try to load from JSON file first (for cross-device sync)
+        const response = await fetch('/data/images.json');
+        const data = await response.json();
+        
+        if (data.blogPosts && data.blogPosts.length > 0) {
+          // Only show published posts
+          const publishedPosts = data.blogPosts.filter((post: BlogPost) => post.published !== false);
+          setCustomBlogPosts(publishedPosts);
+        }
+      } catch (error) {
+        console.log('Could not load blog posts from JSON, trying localStorage');
+        
+        // Fallback to localStorage
+        const storedPosts = localStorage.getItem('millsStarBlogPosts');
+        if (storedPosts) {
+          const posts = JSON.parse(storedPosts);
+          // Only show published posts
+          setCustomBlogPosts(posts.filter((post: BlogPost) => post.published));
+        }
       }
 
+      // Load blog hero text from localStorage (not in JSON yet)
       const storedBlogHero = localStorage.getItem('millsStarBlogHero');
       if (storedBlogHero) {
         const blogHero = JSON.parse(storedBlogHero);

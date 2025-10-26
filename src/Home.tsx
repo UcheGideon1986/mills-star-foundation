@@ -189,16 +189,34 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
   // Load hero slideshow images
   useEffect(() => {
-    const storedSlides = localStorage.getItem('millsStarHeroSlides');
-    if (storedSlides) {
-      setHeroSlides(JSON.parse(storedSlides));
-    } else {
-      // Default slideshow images
-      const defaultSlides = [
-        siteImages['heroHome'] || "https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920"
-      ];
-      setHeroSlides(defaultSlides);
-    }
+    const loadHeroSlides = async () => {
+      try {
+        // Try to load from JSON file first (for cross-device sync)
+        const response = await fetch('/data/images.json');
+        const data = await response.json();
+        
+        if (data.heroSlides && data.heroSlides.length > 0) {
+          setHeroSlides(data.heroSlides);
+          return;
+        }
+      } catch (error) {
+        console.log('Could not load hero slides from JSON, trying localStorage');
+      }
+      
+      // Fallback to localStorage
+      const storedSlides = localStorage.getItem('millsStarHeroSlides');
+      if (storedSlides) {
+        setHeroSlides(JSON.parse(storedSlides));
+      } else {
+        // Default slideshow images
+        const defaultSlides = [
+          siteImages['heroHome'] || "https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920"
+        ];
+        setHeroSlides(defaultSlides);
+      }
+    };
+    
+    loadHeroSlides();
   }, [siteImages]);
 
   // Auto-advance slideshow every 5 seconds
