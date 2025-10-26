@@ -7,6 +7,7 @@ import { Label } from './components/figma/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/figma/ui/tabs';
 import { cloudinaryService } from './services/cloudinaryService';
 import { fetchAllData, saveGalleryImages, saveSiteImages, saveImpactImages, saveBlogPosts } from './services/blobStorage';
+import { fetchAllData as fetchSimpleData, downloadDataAsJSON } from './services/simpleStorage';
 
 interface UploadedImage {
   id: string;
@@ -1107,46 +1108,103 @@ export function Admin() {
           </Button>
         </div>
 
-        {/* Cloud Sync Controls */}
-        <Card className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200">
+        {/* Simple Export/Import - Works Immediately! */}
+        <Card className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-300">
           <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-blue-900 mb-2 flex items-center gap-2">
-                  <Cloud className="h-5 w-5" />
-                  Cloud Storage Sync
+            <div className="flex flex-col gap-4">
+              <div>
+                <h3 className="text-lg font-semibold text-green-900 mb-2 flex items-center gap-2">
+                  📥 Simple Export/Import (Works on All Devices!)
                 </h3>
-                <p className="text-sm text-gray-600">
-                  Sync your images to the cloud so they're visible on all devices. Upload images here first, then click "Sync to Cloud".
+                <p className="text-sm text-gray-700 mb-2">
+                  <strong>Step 1:</strong> Upload your images above, then click "Download JSON" below.
+                </p>
+                <p className="text-sm text-gray-700 mb-2">
+                  <strong>Step 2:</strong> Replace <code className="bg-gray-200 px-1 rounded">public/data/images.json</code> with the downloaded file.
+                </p>
+                <p className="text-sm text-gray-700">
+                  <strong>Step 3:</strong> Commit and push to GitHub. ✅ Images will show on all devices!
                 </p>
                 {syncStatus && (
-                  <p className="mt-2 text-sm font-medium text-blue-700">
+                  <p className="mt-2 text-sm font-medium text-green-700">
                     {syncStatus}
                   </p>
                 )}
               </div>
               <div className="flex gap-3">
                 <Button
-                  onClick={handleSyncToCloud}
-                  disabled={isSyncing}
-                  className="bg-blue-600 hover:bg-blue-700"
-                >
-                  <Cloud className="mr-2 h-4 w-4" />
-                  {isSyncing ? 'Syncing...' : 'Sync to Cloud'}
-                </Button>
-                <Button
-                  onClick={handleLoadFromCloud}
-                  disabled={isSyncing}
-                  variant="outline"
-                  className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                  onClick={() => {
+                    downloadDataAsJSON();
+                    setSyncStatus('✅ JSON file downloaded! Now replace public/data/images.json and push to GitHub.');
+                    setTimeout(() => setSyncStatus(''), 10000);
+                  }}
+                  className="bg-green-600 hover:bg-green-700"
                 >
                   <Download className="mr-2 h-4 w-4" />
-                  {isSyncing ? 'Loading...' : 'Load from Cloud'}
+                  Download JSON
+                </Button>
+                <Button
+                  onClick={async () => {
+                    setSyncStatus('Loading from JSON file...');
+                    const data = await fetchSimpleData();
+                    if (data.images.length > 0 || Object.keys(data.siteImages).length > 0) {
+                      setSyncStatus(`✅ Found ${data.images.length} images in JSON file!`);
+                    } else {
+                      setSyncStatus('⚠️ No images found. Download JSON first, then update public/data/images.json');
+                    }
+                    setTimeout(() => setSyncStatus(''), 5000);
+                  }}
+                  variant="outline"
+                  className="border-green-600 text-green-600 hover:bg-green-50"
+                >
+                  <Eye className="mr-2 h-4 w-4" />
+                  Check JSON File
                 </Button>
               </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Cloud Sync Controls (Advanced - Requires Setup) */}
+        <details className="mb-6">
+          <summary className="cursor-pointer text-sm text-gray-600 hover:text-gray-900 mb-2">
+            ⚙️ Advanced: Netlify Blobs Sync (Requires Configuration)
+          </summary>
+          <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200">
+            <CardContent className="pt-6">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-blue-900 mb-2 flex items-center gap-2">
+                    <Cloud className="h-5 w-5" />
+                    Cloud Storage Sync (Requires Netlify Blobs Setup)
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    This requires Netlify Blobs to be enabled on your Netlify site. Use the simple export/import above instead!
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <Button
+                    onClick={handleSyncToCloud}
+                    disabled={isSyncing}
+                    className="bg-blue-600 hover:bg-blue-700"
+                  >
+                    <Cloud className="mr-2 h-4 w-4" />
+                    {isSyncing ? 'Syncing...' : 'Sync to Cloud'}
+                  </Button>
+                  <Button
+                    onClick={handleLoadFromCloud}
+                    disabled={isSyncing}
+                    variant="outline"
+                    className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {isSyncing ? 'Loading...' : 'Load from Cloud'}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </details>
 
         <Tabs defaultValue="upload" className="space-y-6">
           <TabsList>

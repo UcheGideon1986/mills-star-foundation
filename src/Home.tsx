@@ -3,7 +3,7 @@ import { Heart, Users, BookOpen, Activity, Target, ArrowRight } from 'lucide-rea
 import { Button } from './components/figma/ui/button';
 import { Card, CardContent } from './components/figma/ui/card';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
-import { fetchAllData } from './services/blobStorage';
+import { fetchAllData } from './services/simpleStorage';
 
 interface UploadedImage {
   id: string;

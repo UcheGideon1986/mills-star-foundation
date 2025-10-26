@@ -3,7 +3,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card } from './components/figma/ui/card';
 import { Button } from './components/figma/ui/button';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
-import { fetchAllData } from './services/blobStorage';
+import { fetchAllData } from './services/simpleStorage';
 
 interface UploadedImage {
   id: string;
