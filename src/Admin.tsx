@@ -567,15 +567,27 @@ export function Admin() {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this image?')) {
+    const imageToDelete = images.find(img => img.id === id);
+    const imageName = imageToDelete?.title || 'this image';
+    
+    if (confirm(`Are you sure you want to delete "${imageName}"?\n\nThis will remove it from:\n• Gallery display\n• Your image library\n• All pages where it appears\n\nThis action cannot be undone.`)) {
       setImages(prev => prev.filter(img => img.id !== id));
+      
+      // Show success message
+      alert(`✅ Image "${imageName}" has been deleted successfully!`);
     }
   };
 
   const clearAllImages = () => {
-    if (confirm('Are you sure you want to delete ALL images? This cannot be undone.')) {
-      setImages([]);
-      localStorage.removeItem('millsStarImages');
+    const totalImages = images.length;
+    
+    if (confirm(`⚠️ WARNING: Delete ALL ${totalImages} Images?\n\nThis will permanently delete:\n• All ${totalImages} uploaded images\n• All gallery photos\n• All event images\n• All sports photos\n\nThis action CANNOT be undone!\n\nAre you absolutely sure?`)) {
+      // Double confirmation for safety
+      if (confirm(`Final confirmation: Delete all ${totalImages} images?\n\nClick OK to proceed with deletion.`)) {
+        setImages([]);
+        localStorage.removeItem('millsStarImages');
+        alert(`✅ All ${totalImages} images have been deleted.`);
+      }
     }
   };
 
@@ -1601,8 +1613,11 @@ export function Admin() {
                               variant="destructive"
                               size="sm"
                               onClick={() => handleDelete(image.id)}
+                              title="Delete this image permanently"
+                              className="hover:bg-red-700"
                             >
-                              <Trash2 className="h-3 w-3" />
+                              <Trash2 className="h-3 w-3 mr-1" />
+                              Delete
                             </Button>
                           </div>
                         </CardContent>
