@@ -86,7 +86,7 @@ export function exportLocalStorageData(): string {
     content: post.content,
     author: post.author,
     date: post.date,
-    imageUrl: post.image,
+    imageUrl: post.image || post.imageUrl || 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920',
   }));
   
   const data: StorageData = {
