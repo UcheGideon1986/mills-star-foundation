@@ -801,9 +801,13 @@ export function Admin() {
             });
             imageUrl = result.secure_url;
             cloudinaryPublicId = result.public_id;
+            setCompressionProgress('Image uploaded successfully!');
           } catch (uploadError) {
             console.error('Image upload failed:', uploadError);
-            alert('Image upload failed, but post will be created with default image. You can edit and upload image later.');
+            const errorMessage = uploadError instanceof Error ? uploadError.message : 'Unknown error';
+            
+            // Show detailed error to help debug
+            alert(`Image upload failed: ${errorMessage}\n\nPossible causes:\n• Image file too large (max 10MB)\n• Network connection issue\n• Cloudinary rate limit\n\nThe post will be created with a default image.\nYou can edit and upload the image later.`);
           }
         } else {
           alert('Cloudinary not configured. Post will be created with default image. Configure Cloudinary to upload custom images.');
@@ -2076,7 +2080,10 @@ export function Admin() {
                     </div>
 
                     <div className="md:col-span-2">
-                      <Label htmlFor="blogImage">Featured Image *</Label>
+                      <Label htmlFor="blogImage">Featured Image (Optional)</Label>
+                      <p className="text-xs text-gray-500 mt-1 mb-2">
+                        Upload a custom image or leave empty to use default. Max 10MB.
+                      </p>
                       <input
                         id="blogImage"
                         type="file"
@@ -2089,6 +2096,16 @@ export function Admin() {
                           <img
                             src={blogImagePreview}
                             alt="Preview"
+                            className="w-full h-64 object-cover rounded-lg"
+                          />
+                        </div>
+                      )}
+                      {!blogImagePreview && editingPost?.image && (
+                        <div className="mt-3">
+                          <p className="text-xs text-gray-500 mb-2">Current image:</p>
+                          <img
+                            src={editingPost.image}
+                            alt="Current"
                             className="w-full h-64 object-cover rounded-lg"
                           />
                         </div>
