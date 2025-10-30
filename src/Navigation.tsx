@@ -14,7 +14,7 @@ export function Navigation({ currentPage, setCurrentPage }: NavigationProps) {
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'gallery', label: 'Gallery' },
-    { id: 'blog', label: 'Blog' },
+    { id: 'blog', label: 'Upcoming Events' },
     { id: 'contact', label: 'Contact' },
   ];
 
@@ -34,9 +34,9 @@ export function Navigation({ currentPage, setCurrentPage }: NavigationProps) {
             onClick={() => handleNavClick('home')}
           >
             <img 
-              src="/logo.svg" 
+              src="/logo.png" 
               alt="Mills Star Foundation Logo" 
-              className="h-12 w-12"
+              className="h-12 w-12 object-contain"
             />
             <span className="text-blue-900 font-semibold text-lg">Mills Star Foundation</span>
           </div>

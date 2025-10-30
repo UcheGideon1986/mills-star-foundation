@@ -22,9 +22,9 @@ export function Footer({ setCurrentPage }: FooterProps) {
               title="Admin Access"
             >
               <img 
-                src="/logo.svg" 
+                src="/logo.png" 
                 alt="Mills Star Foundation Logo" 
-                className="h-10 w-10"
+                className="h-10 w-10 object-contain"
               />
               <span className="font-semibold">Mills Star Foundation</span>
             </div>

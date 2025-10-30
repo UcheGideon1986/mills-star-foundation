@@ -18,8 +18,8 @@ interface BlogPost {
 
 export function Blog() {
   const [customBlogPosts, setCustomBlogPosts] = useState<BlogPost[]>([]);
-  const [blogHeroTitle, setBlogHeroTitle] = useState('Our Blog');
-  const [blogHeroTagline, setBlogHeroTagline] = useState('Stories of impact, hope, and empowerment');
+  const [blogHeroTitle, setBlogHeroTitle] = useState('Upcoming Events');
+  const [blogHeroTagline, setBlogHeroTagline] = useState('Join us for our upcoming events and activities');
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   // Load blog posts and hero text from JSON file first, then localStorage
@@ -31,9 +31,11 @@ export function Blog() {
         const data = await response.json();
         
         if (data.blogPosts && data.blogPosts.length > 0) {
-          // Only show published posts
-          const publishedPosts = data.blogPosts.filter((post: BlogPost) => post.published !== false);
-          setCustomBlogPosts(publishedPosts);
+          // Only show published events
+          const publishedEvents = data.blogPosts
+            .filter((post: BlogPost) => post.published !== false)
+            .sort((a: BlogPost, b: BlogPost) => new Date(a.date).getTime() - new Date(b.date).getTime());
+          setCustomBlogPosts(publishedEvents);
         }
       } catch (error) {
         console.log('Could not load blog posts from JSON, trying localStorage');
@@ -42,8 +44,11 @@ export function Blog() {
         const storedPosts = localStorage.getItem('millsStarBlogPosts');
         if (storedPosts) {
           const posts = JSON.parse(storedPosts);
-          // Only show published posts
-          setCustomBlogPosts(posts.filter((post: BlogPost) => post.published));
+          // Only show published events, sorted by date
+          const publishedEvents = posts
+            .filter((post: BlogPost) => post.published)
+            .sort((a: BlogPost, b: BlogPost) => new Date(a.date).getTime() - new Date(b.date).getTime());
+          setCustomBlogPosts(publishedEvents);
         }
       }
 
@@ -188,7 +193,7 @@ export function Blog() {
           {/* Featured Image */}
           <div className="mb-8 rounded-lg overflow-hidden">
             <ImageWithFallback
-              src={selectedPost.image}
+              src={selectedPost.image || (selectedPost as any).imageUrl}
               alt={selectedPost.title}
               className="w-full h-96 object-cover"
             />
@@ -242,7 +247,7 @@ export function Blog() {
               <Card key={post.id} className="overflow-hidden hover:shadow-xl transition-shadow">
                 <div className="relative h-48 overflow-hidden">
                   <ImageWithFallback
-                    src={post.image}
+                    src={post.image || (post as any).imageUrl}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                   />

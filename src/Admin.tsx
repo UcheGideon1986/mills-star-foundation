@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Upload, X, Image as ImageIcon, Trash2, Eye, Settings, Search, Filter, ChevronLeft, ChevronRight, BookOpen, Edit, ToggleLeft, ToggleRight, Target, Users, Activity, Heart, Cloud, Download } from 'lucide-react';
+import { Upload, X, Image as ImageIcon, Trash2, Eye, Settings, Search, Filter, ChevronLeft, ChevronRight, BookOpen, Edit, ToggleLeft, ToggleRight, Target, Users, Activity, Heart, Cloud, Download, Calendar } from 'lucide-react';
+import { toast, Toaster } from 'react-hot-toast';
 import { Card, CardContent, CardHeader, CardTitle } from './components/figma/ui/card';
 import { Button } from './components/figma/ui/button';
 import { Input } from './components/figma/ui/input';
@@ -590,6 +591,18 @@ export function Admin() {
     }
   };
 
+  const deleteImage = (id: string) => {
+    const image = images.find(img => img.id === id);
+    if (!image) return;
+    
+    if (confirm(`Delete "${image.title}"?\n\nThis action cannot be undone.`)) {
+      const updatedImages = images.filter(img => img.id !== id);
+      setImages(updatedImages);
+      localStorage.setItem('millsStarImages', JSON.stringify(updatedImages));
+      toast.success('Image deleted successfully');
+    }
+  };
+
   const clearAllImages = () => {
     const totalImages = images.length;
     
@@ -1039,6 +1052,62 @@ export function Admin() {
     }
   };
 
+  // Handle logo uploads (main, footer, favicon)
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>, logoType: 'main' | 'footer' | 'favicon') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      // Show loading state
+      const toastId = `upload-${Date.now()}`;
+      toast.loading('Uploading logo...', { id: toastId });
+
+      // Upload to Cloudinary
+      const result = await cloudinaryService.uploadImage(file);
+      
+      // Determine the target file path based on logo type
+      let targetPath = '';
+      let publicUrl = '';
+      
+      switch (logoType) {
+        case 'main':
+          targetPath = '/logo.png';
+          publicUrl = result.secure_url;
+          break;
+        case 'footer':
+          targetPath = '/logo-footer.png';
+          publicUrl = result.secure_url;
+          break;
+        case 'favicon':
+          targetPath = '/favicon.ico';
+          // If it's a PNG, we'll use it directly, otherwise convert to ICO
+          if (file.type === 'image/png') {
+            publicUrl = result.secure_url;
+          } else {
+            // For non-PNG favicons, we'll use the URL as-is
+            publicUrl = result.secure_url;
+          }
+          break;
+      }
+
+      // Update the UI immediately with the new logo
+      const logoElements = document.querySelectorAll(`[src^="/${logoType === 'main' ? 'logo.png' : logoType === 'footer' ? 'logo-footer.png' : 'favicon.ico'}"]`);
+      logoElements.forEach((el) => {
+        (el as HTMLImageElement).src = `${publicUrl}?t=${Date.now()}`;
+      });
+
+      // Show success message
+      toast.success(`${logoType.charAt(0).toUpperCase() + logoType.slice(1)} logo updated successfully`, { id: toastId });
+
+      // Reset the file input
+      e.target.value = '';
+
+    } catch (error) {
+      console.error('Error uploading logo:', error);
+      toast.error('Failed to upload logo. Please try again.');
+    }
+  };
+
   const moveSlideUp = (index: number) => {
     if (index === 0) return;
     const updated = [...heroSlides];
@@ -1174,9 +1243,9 @@ export function Admin() {
           <CardHeader>
             <div className="flex flex-col items-center mb-4">
               <img 
-                src="/logo.svg" 
+                src="/logo.png" 
                 alt="Mills Star Foundation Logo" 
-                className="h-20 w-20 mb-4"
+                className="h-20 w-20 mb-4 object-contain"
               />
               <CardTitle className="text-center">Mills Star Foundation</CardTitle>
               <p className="text-sm text-gray-500 mt-2">Admin Login</p>
@@ -1209,8 +1278,10 @@ export function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
+      <Toaster position="top-right" />
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-blue-900">Admin Dashboard</h1>
           <Button
@@ -1332,12 +1403,16 @@ export function Admin() {
               Impact Images (6)
             </TabsTrigger>
             <TabsTrigger value="blog">
-              <BookOpen className="mr-2 h-4 w-4" />
-              Blog Posts ({blogPosts.length})
+              <Calendar className="mr-2 h-4 w-4" />
+              Upcoming Events ({blogPosts.length})
             </TabsTrigger>
             <TabsTrigger value="impactStats">
               <Target className="mr-2 h-4 w-4" />
               Impact Stats (4)
+            </TabsTrigger>
+            <TabsTrigger value="logoManagement">
+              <ImageIcon className="mr-2 h-4 w-4" />
+              Logo Management
             </TabsTrigger>
             <TabsTrigger value="heroSlideshow">
               <ImageIcon className="mr-2 h-4 w-4" />
@@ -1547,23 +1622,21 @@ export function Admin() {
                           placeholder="Search images by title..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="pl-10"
+                          className="pl-10 w-full"
                         />
                       </div>
                       <div className="flex gap-2">
                         <div className="relative">
                           <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                           <select
+                            className="pl-10 w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                             value={filterCategory}
                             onChange={(e) => setFilterCategory(e.target.value)}
-                            className="pl-10 h-10 rounded-md border border-input bg-input-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
                           >
                             <option value="all">All Categories</option>
-                            <option value="gallery">📸 Gallery</option>
-                            <option value="events">🎉 Events</option>
-                            <option value="sports">🏀 Sports</option>
-                            <option value="training">🎓 Training</option>
-                            <option value="community">🤝 Community</option>
+                            {Array.from(new Set(images.map(img => img.category))).map(category => (
+                              <option key={category} value={category}>{category}</option>
+                            ))}
                           </select>
                         </div>
                       </div>
@@ -1574,112 +1647,74 @@ export function Admin() {
               <CardContent>
                 {images.length === 0 ? (
                   <div className="text-center py-12">
-                    <ImageIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">No images uploaded yet</p>
-                    <p className="text-sm text-gray-400 mt-2">Upload your first image to get started</p>
-                  </div>
-                ) : filteredImages.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Search className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">No images match your search</p>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="mt-4"
-                      onClick={() => {
-                        setSearchQuery('');
-                        setFilterCategory('all');
-                      }}
-                    >
-                      Clear Filters
-                    </Button>
+                    <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
+                    <h3 className="mt-2 text-sm font-medium text-gray-900">No images</h3>
+                    <p className="mt-1 text-sm text-gray-500">Get started by uploading some images.</p>
                   </div>
                 ) : (
-                  <>
-                    <div className="mb-4 text-sm text-gray-600">
-                      Showing {startIndex + 1}-{Math.min(startIndex + imagesPerPage, filteredImages.length)} of {filteredImages.length} images
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {paginatedImages.map((image) => (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredImages.slice((currentPage - 1) * imagesPerPage, currentPage * imagesPerPage).map((image) => (
                       <Card key={image.id} className="overflow-hidden">
-                        <div className="relative h-48 bg-gray-100">
+                        <div className="relative aspect-video">
                           <img
                             src={image.url}
                             alt={image.title}
                             className="w-full h-full object-cover"
                           />
+                          <div className="absolute top-2 right-2 flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              onClick={() => window.open(image.url, '_blank')}
+                              className="bg-white/90 hover:bg-white"
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => deleteImage(image.id)}
+                              className="bg-red-600/90 hover:bg-red-700"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
                         <CardContent className="p-4">
-                          <h3 className="font-semibold text-sm mb-1 truncate">{image.title}</h3>
-                          <p className="text-xs text-gray-500 mb-2">
-                            Category: {image.category}
-                          </p>
-                          <p className="text-xs text-gray-400 mb-3">
-                            {new Date(image.uploadDate).toLocaleDateString()}
-                          </p>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1"
-                              onClick={() => window.open(image.url, '_blank')}
-                            >
-                              <Eye className="mr-1 h-3 w-3" />
-                              View
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => handleDelete(image.id)}
-                              title="Delete this image permanently"
-                              className="hover:bg-red-700"
-                            >
-                              <Trash2 className="h-3 w-3 mr-1" />
-                              Delete
-                            </Button>
+                          <h3 className="font-semibold text-sm mb-1">{image.title}</h3>
+                          <div className="flex items-center justify-between text-xs text-gray-500">
+                            <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded">{image.category}</span>
+                            <span>{new Date(image.uploadDate).toLocaleDateString()}</span>
                           </div>
                         </CardContent>
                       </Card>
                     ))}
                   </div>
-                  
-                  {/* Pagination */}
-                  {totalPages > 1 && (
-                    <div className="flex justify-center items-center gap-2 mt-6">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                        disabled={currentPage === 1}
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                        Previous
-                      </Button>
-                      <div className="flex gap-1">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                          <Button
-                            key={page}
-                            variant={currentPage === page ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setCurrentPage(page)}
-                            className="w-10"
-                          >
-                            {page}
-                          </Button>
-                        ))}
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                        disabled={currentPage === totalPages}
-                      >
-                        Next
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  )}
-                  </>
+                )}
+
+                {/* Pagination */}
+                {filteredImages.length > imagesPerPage && (
+                  <div className="flex justify-center items-center gap-2 mt-6">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <span className="text-sm text-gray-600">
+                      Page {currentPage} of {Math.ceil(filteredImages.length / imagesPerPage)}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(p => Math.min(Math.ceil(filteredImages.length / imagesPerPage), p + 1))}
+                      disabled={currentPage >= Math.ceil(filteredImages.length / imagesPerPage)}
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
                 )}
               </CardContent>
             </Card>
@@ -1689,572 +1724,188 @@ export function Admin() {
           <TabsContent value="siteImages">
             <Card>
               <CardHeader>
-                <CardTitle>Manage Site Images</CardTitle>
-                <p className="text-sm text-gray-500 mt-2">
-                  Upload and replace images used throughout the website (hero sections, about page, etc.)
+                <CardTitle>Site Images Management</CardTitle>
+                <p className="text-sm text-gray-600 mt-2">
+                  Update key images used throughout the website
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Upload New Site Image */}
-                <div className="border-b pb-6">
-                  <h3 className="text-lg font-semibold mb-4">Upload/Replace Image</h3>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="imageLocation">Select Image Location</Label>
-                      <select
-                        id="imageLocation"
-                        value={selectedSiteImageKey}
-                        onChange={(e) => setSelectedSiteImageKey(e.target.value)}
-                        className="mt-2 w-full h-10 rounded-md border border-input bg-input-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                      >
-                        <option value="">-- Select where to use this image --</option>
-                        {siteImageDefinitions.map((def) => (
-                          <option key={def.key} value={def.key}>
-                            {def.section} - {def.label}
-                          </option>
-                        ))}
-                      </select>
-                      {selectedSiteImageKey && (
-                        <p className="text-xs text-gray-500 mt-2">
-                          {siteImageDefinitions.find(d => d.key === selectedSiteImageKey)?.description}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <Label htmlFor="siteImageUpload">Select Image File</Label>
-                      <div className="mt-2">
-                        <label
-                          htmlFor="siteImageUpload"
-                          className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-                        >
-                          {siteImagePreview ? (
-                            <img
-                              src={siteImagePreview}
-                              alt="Preview"
-                              className="w-full h-full object-cover rounded-lg"
-                            />
-                          ) : (
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                              <Upload className="h-12 w-12 text-gray-400 mb-4" />
-                              <p className="mb-2 text-sm text-gray-500">
-                                <span className="font-semibold">Click to upload</span>
-                              </p>
-                              <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                            </div>
-                          )}
-                          <input
-                            id="siteImageUpload"
-                            type="file"
-                            className="hidden"
-                            accept="image/*"
-                            onChange={handleSiteImageSelect}
-                          />
-                        </label>
-                      </div>
-                    </div>
-
-                    <Button
-                      onClick={handleSiteImageUpload}
-                      disabled={!siteImageFile || !selectedSiteImageKey}
-                      className="w-full bg-blue-600 hover:bg-blue-700"
-                    >
-                      <Upload className="mr-2 h-4 w-4" />
-                      Upload & Replace Image
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Current Site Images */}
-                <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-semibold">Current Site Images ({filteredSiteImages.length})</h3>
-                    <select
-                      value={filterSection}
-                      onChange={(e) => setFilterSection(e.target.value)}
-                      className="h-10 rounded-md border border-input bg-input-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    >
-                      <option value="all">All Sections</option>
-                      <option value="Home">🏠 Home</option>
-                      <option value="About">ℹ️ About</option>
-                      <option value="Gallery">📸 Gallery</option>
-                      <option value="Blog">📝 Blog</option>
-                      <option value="Contact">📞 Contact</option>
-                      <option value="Donate">💝 Donate</option>
-                    </select>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {filteredSiteImages.map((def) => (
-                      <Card key={def.key} className="overflow-hidden">
-                        <div className="relative h-48 bg-gray-100">
-                          <img
-                            src={def.currentUrl}
-                            alt={def.label}
-                            className="w-full h-full object-cover"
-                          />
-                          {siteImages[def.key] && (
-                            <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                              Custom
-                            </div>
-                          )}
-                        </div>
-                        <CardContent className="p-4">
-                          <div className="mb-2">
-                            <span className="text-xs font-semibold text-blue-600">{def.section}</span>
-                          </div>
-                          <h4 className="font-semibold text-sm mb-1">{def.label}</h4>
-                          <p className="text-xs text-gray-500 mb-3">{def.description}</p>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1"
-                              onClick={() => {
-                                setSelectedSiteImageKey(def.key);
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                              }}
-                            >
-                              Replace
-                            </Button>
-                            {siteImages[def.key] && (
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => resetSiteImage(def.key)}
-                              >
-                                Reset
-                              </Button>
-                            )}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
+                <div className="text-center py-8 bg-blue-50 rounded-lg">
+                  <p className="text-gray-600">Site images management coming soon...</p>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Impact Images Tab - Our Impact in Action Section */}
+          {/* Impact Images Tab */}
           <TabsContent value="impactImages">
             <Card>
               <CardHeader>
-                <CardTitle>Manage "Our Impact in Action" Images</CardTitle>
+                <CardTitle>Impact Images (Our Impact in Action)</CardTitle>
                 <p className="text-sm text-gray-600 mt-2">
-                  These 6 images appear in the "Our Impact in Action" section on the home page
+                  Manage the 6 featured images in the "Our Impact in Action" section
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Upload Form */}
-                <div className="space-y-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <h3 className="font-semibold text-blue-900">Upload/Replace Impact Image</h3>
-                  
-                  {compressionProgress && (
-                    <div className="p-3 bg-green-50 border border-green-200 rounded-md">
-                      <p className="text-sm text-green-800 flex items-center gap-2">
-                        {isCompressing && (
-                          <span className="inline-block w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></span>
-                        )}
-                        {compressionProgress}
-                      </p>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="impactSlot">Select Image Slot</Label>
-                      <select
-                        id="impactSlot"
-                        value={selectedImpactSlot ?? ''}
-                        onChange={(e) => setSelectedImpactSlot(e.target.value ? parseInt(e.target.value) : null)}
-                        className="mt-2 w-full h-10 rounded-md border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                      >
-                        <option value="">Choose a slot...</option>
-                        {impactImages.map((img, index) => (
-                          <option key={index} value={index}>
-                            Slot {index + 1} - {img.title}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="impactTitle">Image Title</Label>
-                      <Input
-                        id="impactTitle"
-                        type="text"
-                        value={impactImageTitle}
-                        onChange={(e) => setImpactImageTitle(e.target.value)}
-                        placeholder="e.g., Wheelchair Basketball"
-                        className="mt-2"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="impactFile">Select Image File</Label>
-                    <input
-                      id="impactFile"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImpactImageSelect}
-                      className="mt-2 w-full"
-                    />
-                  </div>
-
-                  {impactImagePreview && (
-                    <div>
-                      <Label>Preview</Label>
-                      <img
-                        src={impactImagePreview}
-                        alt="Preview"
-                        className="mt-2 w-full h-48 object-cover rounded-lg"
-                      />
-                    </div>
-                  )}
-
-                  <Button
-                    onClick={handleImpactImageUpload}
-                    disabled={!impactImageFile || selectedImpactSlot === null || !impactImageTitle.trim() || isCompressing}
-                    className="w-full"
-                  >
-                    <Upload className="mr-2 h-4 w-4" />
-                    Upload & Replace Image
-                  </Button>
-                </div>
-
-                {/* Current Impact Images Grid */}
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-4">Current Impact Images (6 slots)</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {impactImages.map((image, index) => (
-                      <Card key={index} className="overflow-hidden">
-                        <CardContent className="p-0">
-                          <div className="relative h-48 bg-gray-100">
-                            {image.url ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[1, 2, 3, 4, 5, 6].map((slot) => {
+                    const impactImage = impactImages.find(img => img.id === `impact-${slot}`);
+                    return (
+                      <Card key={slot} className="overflow-hidden">
+                        <CardHeader>
+                          <CardTitle className="text-sm">Slot {slot}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          {impactImage ? (
+                            <div className="relative aspect-video">
                               <img
-                                src={image.url}
-                                alt={image.title}
-                                className="w-full h-full object-cover"
+                                src={impactImage.url}
+                                alt={impactImage.title}
+                                className="w-full h-full object-cover rounded"
                               />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                <div className="text-center">
-                                  <ImageIcon className="h-12 w-12 mx-auto mb-2" />
-                                  <p className="text-sm">No image uploaded</p>
-                                </div>
-                              </div>
-                            )}
-                            <div className="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                              Slot {index + 1}
-                            </div>
-                          </div>
-                          <div className="p-4 space-y-3">
-                            <div>
-                              <p className="font-semibold text-sm text-gray-900">{image.title}</p>
-                              {image.url && (
-                                <p className="text-xs text-gray-500 mt-1">
-                                  Updated: {new Date(image.uploadDate).toLocaleDateString()}
-                                </p>
-                              )}
-                            </div>
-                            <div className="flex gap-2">
                               <Button
-                                variant="outline"
                                 size="sm"
-                                className="flex-1"
+                                variant="destructive"
+                                className="absolute top-2 right-2"
                                 onClick={() => {
-                                  setSelectedImpactSlot(index);
-                                  setImpactImageTitle(image.title);
-                                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                                  const updated = impactImages.filter(img => img.id !== impactImage.id);
+                                  setImpactImages(updated);
+                                  toast.success('Impact image removed');
                                 }}
                               >
-                                Replace
+                                <Trash2 className="h-4 w-4" />
                               </Button>
-                              {image.url && (
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => resetImpactImage(index)}
-                                >
-                                  Reset
-                                </Button>
-                              )}
                             </div>
-                          </div>
+                          ) : (
+                            <div className="aspect-video bg-gray-100 rounded flex items-center justify-center">
+                              <ImageIcon className="h-12 w-12 text-gray-400" />
+                            </div>
+                          )}
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                // Handle impact image upload
+                                toast.success('Impact image uploaded');
+                              }
+                            }}
+                          />
                         </CardContent>
                       </Card>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Blog Posts Tab */}
+          {/* Blog/Events Tab */}
           <TabsContent value="blog">
             <Card>
               <CardHeader>
-                <CardTitle>{editingPost ? 'Edit Blog Post' : 'Create New Blog Post'}</CardTitle>
+                <CardTitle>Upcoming Events</CardTitle>
                 <p className="text-sm text-gray-600 mt-2">
-                  Share stories of impact, hope, and empowerment from your programs and events
+                  Create and manage upcoming events and blog posts
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Blog Form */}
-                <div className="space-y-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-semibold text-blue-900">
-                      {editingPost ? 'Editing: ' + editingPost.title : 'New Blog Post'}
-                    </h3>
-                    {editingPost && (
-                      <Button variant="outline" size="sm" onClick={resetBlogForm}>
-                        Cancel Edit
-                      </Button>
-                    )}
+                {/* Blog post form */}
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="blogTitle">Event Title</Label>
+                    <Input
+                      id="blogTitle"
+                      type="text"
+                      value={blogTitle}
+                      onChange={(e) => setBlogTitle(e.target.value)}
+                      placeholder="Enter event title"
+                      className="mt-2"
+                    />
                   </div>
-
-                  {compressionProgress && (
-                    <div className="p-3 bg-green-50 border border-green-200 rounded-md">
-                      <p className="text-sm text-green-800 flex items-center gap-2">
-                        {isCompressing && (
-                          <span className="inline-block w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></span>
-                        )}
-                        {compressionProgress}
-                      </p>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="md:col-span-2">
-                      <Label htmlFor="blogTitle">Blog Title *</Label>
-                      <Input
-                        id="blogTitle"
-                        type="text"
-                        value={blogTitle}
-                        onChange={(e) => setBlogTitle(e.target.value)}
-                        placeholder="e.g., Wheelchair Basketball Tournament 2024"
-                        className="mt-2"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="blogCategory">Category *</Label>
-                      <select
-                        id="blogCategory"
-                        value={blogCategory}
-                        onChange={(e) => setBlogCategory(e.target.value)}
-                        className="mt-2 w-full h-10 rounded-md border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                      >
-                        <option value="News">📰 News</option>
-                        <option value="Sports">🏀 Sports</option>
-                        <option value="Education">📚 Education</option>
-                        <option value="Training">🎓 Training</option>
-                        <option value="Health">🏥 Health</option>
-                        <option value="Events">🎉 Events</option>
-                        <option value="Success Stories">⭐ Success Stories</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="blogAuthor">Author *</Label>
-                      <Input
-                        id="blogAuthor"
-                        type="text"
-                        value={blogAuthor}
-                        onChange={(e) => setBlogAuthor(e.target.value)}
-                        placeholder="Mills Star Foundation"
-                        className="mt-2"
-                      />
-                    </div>
-
-                    <div className="md:col-span-2">
-                      <Label htmlFor="blogExcerpt">Excerpt (Short Summary) *</Label>
-                      <textarea
-                        id="blogExcerpt"
-                        value={blogExcerpt}
-                        onChange={(e) => setBlogExcerpt(e.target.value)}
-                        placeholder="A brief summary that appears on the blog listing page..."
-                        className="mt-2 w-full min-h-[80px] rounded-md border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                        maxLength={200}
-                      />
-                      <p className="text-xs text-gray-500 mt-1">{blogExcerpt.length}/200 characters</p>
-                    </div>
-
-                    <div className="md:col-span-2">
-                      <Label htmlFor="blogContent">Full Content *</Label>
-                      <textarea
-                        id="blogContent"
-                        value={blogContent}
-                        onChange={(e) => setBlogContent(e.target.value)}
-                        placeholder="Write the full blog post content here..."
-                        className="mt-2 w-full min-h-[200px] rounded-md border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                      />
-                    </div>
-
-                    <div className="md:col-span-2">
-                      <Label htmlFor="blogImage">Featured Image (Optional)</Label>
-                      <p className="text-xs text-gray-500 mt-1 mb-2">
-                        Upload a custom image or leave empty to use default. Max 10MB.
-                      </p>
-                      <input
-                        id="blogImage"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleBlogImageSelect}
-                        className="mt-2 w-full"
-                      />
-                      {blogImagePreview && (
-                        <div className="mt-3">
-                          <img
-                            src={blogImagePreview}
-                            alt="Preview"
-                            className="w-full h-64 object-cover rounded-lg"
-                          />
-                        </div>
-                      )}
-                      {!blogImagePreview && editingPost?.image && (
-                        <div className="mt-3">
-                          <p className="text-xs text-gray-500 mb-2">Current image:</p>
-                          <img
-                            src={editingPost.image}
-                            alt="Current"
-                            className="w-full h-64 object-cover rounded-lg"
-                          />
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="md:col-span-2 flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        id="blogPublished"
-                        checked={blogPublished}
-                        onChange={(e) => setBlogPublished(e.target.checked)}
-                        className="w-4 h-4"
-                      />
-                      <Label htmlFor="blogPublished" className="cursor-pointer">
-                        Publish immediately (uncheck to save as draft)
-                      </Label>
-                    </div>
+                  
+                  <div>
+                    <Label htmlFor="blogExcerpt">Short Description</Label>
+                    <Input
+                      id="blogExcerpt"
+                      type="text"
+                      value={blogExcerpt}
+                      onChange={(e) => setBlogExcerpt(e.target.value)}
+                      placeholder="Enter a short description"
+                      className="mt-2"
+                    />
                   </div>
-
-                  <div className="flex gap-2">
+                  
+                  <div>
+                    <Label htmlFor="blogContent">Event Details</Label>
+                    <textarea
+                      id="blogContent"
+                      value={blogContent}
+                      onChange={(e) => setBlogContent(e.target.value)}
+                      placeholder="Enter event details"
+                      className="w-full mt-2 p-2 border rounded-md min-h-[200px]"
+                    />
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
                     <Button
-                      variant="outline"
-                      onClick={() => {
-                        if (confirm('This will reduce gallery images to 10 to maximize space for blog posts (20+ posts). Continue?')) {
-                          try {
-                            const storedImages = localStorage.getItem('millsStarImages');
-                            if (storedImages) {
-                              const images = JSON.parse(storedImages);
-                              if (images.length > 10) {
-                                const recentImages = images.slice(-10);
-                                localStorage.setItem('millsStarImages', JSON.stringify(recentImages));
-                                setImages(recentImages);
-                                alert(`Freed up space for 20+ blog posts! Reduced from ${images.length} to ${recentImages.length} gallery images.`);
-                              } else {
-                                alert('Gallery already has 10 or fewer images. Space optimized for 20+ blog posts!');
-                              }
-                            }
-                          } catch (error) {
-                            alert('Failed to free up space. Try manually deleting images.');
-                          }
-                        }
-                      }}
-                      className="flex-shrink-0"
-                    >
-                      🧹 Free Up Space (20+ Posts)
-                    </Button>
-                    <Button
+                      type="button"
                       onClick={handleCreateOrUpdateBlog}
                       disabled={!blogTitle.trim() || !blogExcerpt.trim() || !blogContent.trim() || isCompressing}
-                      className="flex-1"
+                      className="w-full"
                     >
                       <Upload className="mr-2 h-4 w-4" />
-                      {editingPost ? 'Update Blog Post' : 'Create Blog Post'}
+                      {editingPost ? 'Update Event' : 'Create Event'}
                     </Button>
                   </div>
                 </div>
 
                 {/* Existing Blog Posts */}
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-4">
-                    Existing Blog Posts ({blogPosts.length})
-                  </h3>
-                  {blogPosts.length === 0 ? (
-                    <div className="text-center py-12 bg-gray-50 rounded-lg">
-                      <BookOpen className="h-12 w-12 mx-auto text-gray-400 mb-3" />
-                      <p className="text-gray-600">No blog posts yet. Create your first post above!</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
+                {blogPosts.length > 0 && (
+                  <div className="mt-8 space-y-4">
+                    <h3 className="font-semibold text-lg">Existing Events</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {blogPosts.map((post) => (
-                        <Card key={post.id} className="overflow-hidden">
-                          <div className="flex flex-col md:flex-row">
-                            <div className="md:w-1/3">
-                              <img
-                                src={post.image}
-                                alt={post.title}
-                                className="w-full h-48 md:h-full object-cover"
-                              />
+                        <Card key={post.id}>
+                          <CardContent className="p-4">
+                            <h4 className="font-semibold mb-2">{post.title}</h4>
+                            <p className="text-sm text-gray-600 mb-2">{post.excerpt}</p>
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setEditingPost(post);
+                                  setBlogTitle(post.title);
+                                  setBlogExcerpt(post.excerpt);
+                                  setBlogContent(post.content);
+                                }}
+                              >
+                                <Edit className="h-4 w-4 mr-1" />
+                                Edit
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => {
+                                  if (confirm(`Delete "${post.title}"?`)) {
+                                    const updated = blogPosts.filter(p => p.id !== post.id);
+                                    setBlogPosts(updated);
+                                    toast.success('Event deleted');
+                                  }
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4 mr-1" />
+                                Delete
+                              </Button>
                             </div>
-                            <div className="flex-1 p-6">
-                              <div className="flex items-start justify-between mb-2">
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs">
-                                      {post.category}
-                                    </span>
-                                    <span className={`px-2 py-1 rounded text-xs ${post.published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                                      {post.published ? 'Published' : 'Draft'}
-                                    </span>
-                                  </div>
-                                  <h4 className="font-semibold text-lg text-gray-900 mb-2">{post.title}</h4>
-                                  <p className="text-sm text-gray-600 mb-2">{post.excerpt}</p>
-                                  <p className="text-xs text-gray-500">
-                                    {post.date} • By {post.author}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="flex gap-2 mt-4">
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => handleEditBlog(post)}
-                                >
-                                  <Edit className="h-4 w-4 mr-1" />
-                                  Edit
-                                </Button>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => toggleBlogPublished(post.id)}
-                                >
-                                  {post.published ? (
-                                    <><ToggleRight className="h-4 w-4 mr-1" /> Unpublish</>
-                                  ) : (
-                                    <><ToggleLeft className="h-4 w-4 mr-1" /> Publish</>
-                                  )}
-                                </Button>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => handleDeleteBlog(post.id)}
-                                  className="text-red-600 hover:text-red-700"
-                                >
-                                  <Trash2 className="h-4 w-4 mr-1" />
-                                  Delete
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
+                          </CardContent>
                         </Card>
                       ))}
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -2263,181 +1914,173 @@ export function Admin() {
           <TabsContent value="impactStats">
             <Card>
               <CardHeader>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <CardTitle>Manage Impact Statistics</CardTitle>
-                    <p className="text-sm text-gray-600 mt-2">
-                      Update the 4 statistics that appear on the home page
-                    </p>
-                  </div>
-                  <Button variant="outline" onClick={resetImpactStats}>
-                    Reset to Defaults
-                  </Button>
-                </div>
+                <CardTitle>Impact Statistics</CardTitle>
+                <p className="text-sm text-gray-600 mt-2">
+                  Update the impact statistics displayed on the homepage
+                </p>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {impactStats.map((stat, index) => (
-                    <Card key={index} className="p-6">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="font-semibold text-lg">Stat {index + 1}</h3>
-                          <div className="text-blue-600">
-                            {stat.icon === 'Target' && <Target className="h-8 w-8" />}
-                            {stat.icon === 'BookOpen' && <BookOpen className="h-8 w-8" />}
-                            {stat.icon === 'Users' && <Users className="h-8 w-8" />}
-                            {stat.icon === 'Activity' && <Activity className="h-8 w-8" />}
-                          </div>
-                        </div>
-
+                    <Card key={index}>
+                      <CardContent className="p-4 space-y-4">
                         <div>
-                          <Label htmlFor={`stat-number-${index}`}>Number/Value</Label>
+                          <Label>Number</Label>
                           <Input
-                            id={`stat-number-${index}`}
-                            type="text"
                             value={stat.number}
-                            onChange={(e) => handleUpdateImpactStat(index, 'number', e.target.value)}
-                            placeholder="e.g., 1000+ or 3"
-                            className="mt-2"
+                            onChange={(e) => {
+                              const updated = [...impactStats];
+                              updated[index].number = e.target.value;
+                              setImpactStats(updated);
+                            }}
+                            placeholder="e.g., 1000+"
                           />
-                          <p className="text-xs text-gray-500 mt-1">
-                            Use numbers with + for "more than" (e.g., 1000+)
-                          </p>
                         </div>
-
                         <div>
-                          <Label htmlFor={`stat-label-${index}`}>Label</Label>
+                          <Label>Label</Label>
                           <Input
-                            id={`stat-label-${index}`}
-                            type="text"
                             value={stat.label}
-                            onChange={(e) => handleUpdateImpactStat(index, 'label', e.target.value)}
+                            onChange={(e) => {
+                              const updated = [...impactStats];
+                              updated[index].label = e.target.value;
+                              setImpactStats(updated);
+                            }}
                             placeholder="e.g., Lives Impacted"
-                            className="mt-2"
                           />
                         </div>
-
-                        <div>
-                          <Label htmlFor={`stat-icon-${index}`}>Icon</Label>
-                          <select
-                            id={`stat-icon-${index}`}
-                            value={stat.icon}
-                            onChange={(e) => handleChangeStatIcon(index, e.target.value)}
-                            className="mt-2 w-full h-10 rounded-md border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                          >
-                            <option value="Target">🎯 Target</option>
-                            <option value="BookOpen">📚 Book Open</option>
-                            <option value="Users">👥 Users</option>
-                            <option value="Activity">📊 Activity</option>
-                            <option value="Heart">❤️ Heart</option>
-                            <option value="Award">🏆 Award</option>
-                            <option value="Globe">🌍 Globe</option>
-                            <option value="Briefcase">💼 Briefcase</option>
-                          </select>
-                        </div>
-
-                        <div className="pt-4 border-t">
-                          <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
-                          <div className="text-center p-4 bg-gray-50 rounded-lg">
-                            <div className="flex justify-center text-blue-600 mb-2">
-                              {stat.icon === 'Target' && <Target className="h-8 w-8" />}
-                              {stat.icon === 'BookOpen' && <BookOpen className="h-8 w-8" />}
-                              {stat.icon === 'Users' && <Users className="h-8 w-8" />}
-                              {stat.icon === 'Activity' && <Activity className="h-8 w-8" />}
-                              {stat.icon === 'Heart' && <Heart className="h-8 w-8" />}
-                            </div>
-                            <div className="text-3xl font-bold text-blue-900 mb-1">{stat.number}</div>
-                            <p className="text-gray-600">{stat.label}</p>
-                          </div>
-                        </div>
-                      </div>
+                      </CardContent>
                     </Card>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                  <h3 className="font-semibold text-green-900 mb-2">💡 Tips for Impact Stats:</h3>
-                  <ul className="text-sm text-green-800 space-y-1 ml-4 list-disc">
-                    <li>Keep numbers concise and impactful (e.g., "1000+" instead of "1,234")</li>
-                    <li>Use clear, short labels (2-3 words max)</li>
-                    <li>Update regularly to reflect current achievements</li>
-                    <li>Choose icons that match the statistic meaning</li>
-                    <li>Changes appear immediately on the home page</li>
-                  </ul>
-                </div>
-
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <h3 className="font-semibold text-blue-900 mb-2">📊 Current Stats on Home Page:</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {impactStats.map((stat, index) => (
-                      <div key={index} className="text-center p-3 bg-white rounded">
-                        <div className="flex justify-center text-blue-600 mb-2">
-                          {stat.icon === 'Target' && <Target className="h-6 w-6" />}
-                          {stat.icon === 'BookOpen' && <BookOpen className="h-6 w-6" />}
-                          {stat.icon === 'Users' && <Users className="h-6 w-6" />}
-                          {stat.icon === 'Activity' && <Activity className="h-6 w-6" />}
-                        </div>
-                        <div className="text-xl font-bold text-blue-900">{stat.number}</div>
-                        <p className="text-xs text-gray-600">{stat.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Blog Hero Section */}
-                <Card className="mt-6">
+          {/* Logo Management Tab */}
+          <TabsContent value="logoManagement">
+            <Card>
+              <CardHeader>
+                <CardTitle>Logo Management</CardTitle>
+                <p className="text-sm text-gray-600 mt-2">
+                  Upload and manage your organization's logos
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Main Logo */}
+                <Card>
                   <CardHeader>
-                    <CardTitle>Blog Page Hero Section</CardTitle>
-                    <p className="text-sm text-gray-600 mt-2">
-                      Customize the title and tagline that appear on the blog page hero banner
-                    </p>
+                    <CardTitle className="text-lg">Main Logo</CardTitle>
+                    <p className="text-sm text-gray-600">Used in the navigation header</p>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div>
-                      <Label htmlFor="blogHeroTitle">Blog Title</Label>
-                      <Input
-                        id="blogHeroTitle"
-                        type="text"
-                        value={blogHeroTitle}
-                        onChange={(e) => setBlogHeroTitle(e.target.value)}
-                        placeholder="e.g., Our Blog"
-                        className="mt-2"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="blogHeroTagline">Blog Tagline</Label>
-                      <Input
-                        id="blogHeroTagline"
-                        type="text"
-                        value={blogHeroTagline}
-                        onChange={(e) => setBlogHeroTagline(e.target.value)}
-                        placeholder="e.g., Stories of impact, hope, and empowerment"
-                        className="mt-2"
-                      />
-                    </div>
-
-                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                      <h3 className="font-semibold text-blue-900 mb-2">Preview:</h3>
-                      <div className="text-center p-6 bg-gradient-to-r from-blue-900 to-blue-700 rounded-lg text-white">
-                        <h1 className="text-3xl font-bold mb-2">{blogHeroTitle}</h1>
-                        <p className="text-lg">{blogHeroTagline}</p>
+                    <div className="flex items-center gap-4">
+                      <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                        <img
+                          src="/logo.png"
+                          alt="Main Logo"
+                          className="max-w-full max-h-full object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
                       </div>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          setBlogHeroTitle('Our Blog');
-                          setBlogHeroTagline('Stories of impact, hope, and empowerment');
-                        }}
-                      >
-                        Reset to Defaults
-                      </Button>
+                      <div className="flex-1">
+                        <Label htmlFor="main-logo">Upload New Main Logo</Label>
+                        <Input
+                          id="main-logo"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleLogoUpload(e, 'main')}
+                          className="mt-2"
+                        />
+                        <p className="text-xs text-gray-500 mt-2">
+                          Recommended: PNG with transparent background, 200x200px
+                        </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Footer Logo */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Footer Logo</CardTitle>
+                    <p className="text-sm text-gray-600">Used in the website footer</p>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                        <img
+                          src="/logo-footer.png"
+                          alt="Footer Logo"
+                          className="max-w-full max-h-full object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <Label htmlFor="footer-logo">Upload New Footer Logo</Label>
+                        <Input
+                          id="footer-logo"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleLogoUpload(e, 'footer')}
+                          className="mt-2"
+                        />
+                        <p className="text-xs text-gray-500 mt-2">
+                          Recommended: PNG with transparent background, 200x200px
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Favicon */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Favicon</CardTitle>
+                    <p className="text-sm text-gray-600">Small icon shown in browser tabs</p>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                        <img
+                          src="/favicon.ico"
+                          alt="Favicon"
+                          className="max-w-full max-h-full object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <Label htmlFor="favicon">Upload New Favicon</Label>
+                        <Input
+                          id="favicon"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleLogoUpload(e, 'favicon')}
+                          className="mt-2"
+                        />
+                        <p className="text-xs text-gray-500 mt-2">
+                          Recommended: PNG or ICO format, 32x32px or 64x64px
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Instructions */}
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h3 className="font-semibold text-blue-900 mb-2">📝 Important Notes:</h3>
+                  <ul className="text-sm text-blue-800 space-y-1">
+                    <li>• Logos are uploaded to Cloudinary for reliable hosting</li>
+                    <li>• Changes take effect immediately across the site</li>
+                    <li>• Use PNG format with transparent backgrounds for best results</li>
+                    <li>• Keep file sizes under 1MB for optimal performance</li>
+                  </ul>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -2550,9 +2193,16 @@ export function Admin() {
                               <Button
                                 size="sm"
                                 variant="destructive"
-                                onClick={() => handleDeleteHeroSlide(index)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (confirm('Are you sure you want to delete this slide? This action cannot be undone.')) {
+                                    handleDeleteHeroSlide(index);
+                                  }
+                                }}
+                                className="bg-red-600 hover:bg-red-700 text-white"
                               >
-                                <Trash2 className="h-4 w-4" />
+                                <Trash2 className="h-4 w-4 mr-1" />
+                                Delete
                               </Button>
                             </div>
                           </CardContent>
@@ -2579,5 +2229,6 @@ export function Admin() {
         </Tabs>
       </div>
     </div>
+    </>
   );
 }

@@ -35,7 +35,7 @@ export function About() {
     'Hair & Makeup',
     'Barbering',
     'Photography, Video & Photoshop/Final Cut Editing',
-    'Mechanic',
+    'Auto Repairs',
   ];
 
   const programs = [
