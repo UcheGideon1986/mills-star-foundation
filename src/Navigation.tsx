@@ -36,9 +36,9 @@ export function Navigation({ currentPage, setCurrentPage }: NavigationProps) {
             <img 
               src="/logo.png" 
               alt="Mills Star Foundation Logo" 
-              className="h-12 w-12 object-contain"
+              className="h-16 w-16 object-contain"
             />
-            <span className="text-blue-900 font-semibold text-lg">Mills Star Foundation</span>
+            <span className="text-blue-900 font-semibold text-xl">Mills Star Foundation</span>
           </div>
 
           {/* Desktop Navigation */}
