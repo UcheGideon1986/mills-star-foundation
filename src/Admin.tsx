@@ -87,7 +87,7 @@ export function Admin() {
   const [impactStats, setImpactStats] = useState([
     { number: '3', label: 'Countries', icon: 'Target' },
     { number: '1000+', label: 'Books Donated', icon: 'BookOpen' },
-    { number: '500+', label: 'Lives Impacted', icon: 'Users' },
+    { number: '2500+', label: 'Lives Impacted', icon: 'Users' },
     { number: '6', label: 'Sports Programs', icon: 'Activity' },
   ]);
   
@@ -995,7 +995,7 @@ export function Admin() {
       const defaultStats = [
         { number: '3', label: 'Countries', icon: 'Target' },
         { number: '1000+', label: 'Books Donated', icon: 'BookOpen' },
-        { number: '500+', label: 'Lives Impacted', icon: 'Users' },
+        { number: '2500+', label: 'Lives Impacted', icon: 'Users' },
         { number: '6', label: 'Sports Programs', icon: 'Activity' },
       ];
       setImpactStats(defaultStats);

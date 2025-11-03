@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Heart, Users, BookOpen, Activity, Target, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import Team from './Team';
 import { Button } from './components/figma/ui/button';
 import { Card, CardContent } from './components/figma/ui/card';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
@@ -159,7 +160,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   const defaultImpactStats = [
     { number: '3', label: 'Countries', icon: 'Target' },
     { number: '1000+', label: 'Books Donated', icon: 'BookOpen' },
-    { number: '500+', label: 'Lives Impacted', icon: 'Users' },
+    { number: '2500+', label: 'Lives Impacted', icon: 'Users' },
     { number: '6', label: 'Sports Programs', icon: 'Activity' },
   ];
 
@@ -253,7 +254,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
             <ImageWithFallback
               src={slide}
               alt={`Mills Star Foundation - Slide ${index + 1}`}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-top"
+              style={{ objectPosition: 'center 20%' }}
             />
           </div>
         ))}
@@ -439,6 +441,9 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
           </div>
         </section>
       )}
+
+      {/* Team Section */}
+      <Team />
 
       {/* Call to Action */}
       <section className="py-16 bg-blue-900 text-white">
