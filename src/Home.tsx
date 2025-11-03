@@ -164,8 +164,11 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
     { number: '6', label: 'Sports Programs', icon: 'Activity' },
   ];
 
-  // Use custom stats if available, otherwise use defaults
-  const impactStatsData = customImpactStats.length > 0 ? customImpactStats : defaultImpactStats;
+  // Use custom stats if available, but always ensure Lives Impacted is 2500+
+  const impactStatsData = customImpactStats.length > 0 ? 
+    customImpactStats.map(stat => 
+      stat.label === 'Lives Impacted' ? { ...stat, number: '2500+' } : stat
+    ) : defaultImpactStats;
 
   // Map icon names to components
   const getIcon = (iconName: string) => {
