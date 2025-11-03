@@ -1,12 +1,8 @@
 import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-interface FooterProps {
-  setCurrentPage: (page: string) => void;
-}
-
-export function Footer({ setCurrentPage }: FooterProps) {
-  const handleNavClick = (page: string) => {
-    setCurrentPage(page);
+export function Footer() {
+  const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -16,10 +12,11 @@ export function Footer({ setCurrentPage }: FooterProps) {
         <div className="grid md:grid-cols-4 gap-8">
           {/* About Section */}
           <div>
-            <div 
-              className="flex items-center gap-3 mb-4 cursor-pointer"
-              onClick={() => handleNavClick('admin')}
+            <Link 
+              to="/admin"
+              className="flex items-center gap-3 mb-4"
               title="Admin Access"
+              onClick={scrollToTop}
             >
               <img 
                 src="/logo.png" 
@@ -27,7 +24,7 @@ export function Footer({ setCurrentPage }: FooterProps) {
                 className="h-10 w-10 object-contain"
               />
               <span className="font-semibold">Mills Star Foundation</span>
-            </div>
+            </Link>
             <p className="text-gray-400 text-sm mb-4">
               Empowering disabled individuals through education, community engagement, and vocational training.
             </p>
@@ -39,44 +36,49 @@ export function Footer({ setCurrentPage }: FooterProps) {
             <h3 className="text-white mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <button
-                  onClick={() => handleNavClick('home')}
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                <Link 
+                  to="/" 
+                  className="text-gray-400 hover:text-white transition-colors text-sm block"
+                  onClick={scrollToTop}
                 >
                   Home
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNavClick('about')}
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                <Link 
+                  to="/about" 
+                  className="text-gray-400 hover:text-white transition-colors text-sm block"
+                  onClick={scrollToTop}
                 >
                   About Us
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNavClick('gallery')}
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                <Link 
+                  to="/gallery" 
+                  className="text-gray-400 hover:text-white transition-colors text-sm block"
+                  onClick={scrollToTop}
                 >
                   Gallery
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNavClick('blog')}
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                <Link 
+                  to="/blog" 
+                  className="text-gray-400 hover:text-white transition-colors text-sm block"
+                  onClick={scrollToTop}
                 >
-                  Blog
-                </button>
+                  Upcoming Events
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNavClick('contact')}
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                <Link 
+                  to="/contact" 
+                  className="text-gray-400 hover:text-white transition-colors text-sm block"
+                  onClick={scrollToTop}
                 >
                   Contact
-                </button>
+                </Link>
               </li>
             </ul>
           </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Home } from './Home';
 import { About } from './About';
 import { Blog } from './Blog';
@@ -10,39 +10,25 @@ import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home');
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <Home setCurrentPage={setCurrentPage} />;
-      case 'about':
-        return <About />;
-      case 'blog':
-        return <Blog />;
-      case 'contact':
-        return <Contact />;
-      case 'donate':
-        return <Donate />;
-      case 'gallery':
-        return <Gallery />;
-      case 'admin':
-        return <Admin />;
-      default:
-        return <Home setCurrentPage={setCurrentPage} />;
-    }
-  };
-
-  // Don't show Navigation and Footer on admin page
-  const isAdminPage = currentPage === 'admin';
+  const location = useLocation();
+  const isAdminPage = location.pathname === '/admin';
 
   return (
     <div className="min-h-screen flex flex-col">
-      {!isAdminPage && <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />}
+      {!isAdminPage && <Navigation />}
       <main className="flex-grow">
-        {renderPage()}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
       </main>
-      {!isAdminPage && <Footer setCurrentPage={setCurrentPage} />}
+      {!isAdminPage && <Footer />}
     </div>
   );
 }

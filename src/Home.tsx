@@ -3,6 +3,7 @@ import { Heart, Users, BookOpen, Activity, Target, ArrowRight, ChevronLeft, Chev
 import Team from './Team';
 import { Button } from './components/figma/ui/button';
 import { Card, CardContent } from './components/figma/ui/card';
+import { Link } from 'react-router-dom';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
 import { fetchAllData } from './services/simpleStorage';
 
@@ -276,9 +277,11 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
             <Button size="lg" className="bg-white text-blue-900 hover:bg-gray-100">
               Learn More <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-              Donate Now <Heart className="ml-2 h-5 w-5" />
-            </Button>
+            <Link to="/donate">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                Donate Now <Heart className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -455,9 +458,11 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
           <p className="text-xl mb-8">
             Your donation helps us provide education, training, and opportunities to the differently abled community
           </p>
-          <Button size="lg" className="bg-white text-blue-900 hover:bg-gray-100">
-            Donate Now <Heart className="ml-2 h-5 w-5" />
-          </Button>
+          <Link to="/donate">
+            <Button size="lg" className="bg-white text-blue-900 hover:bg-gray-100">
+              Donate Now <Heart className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </section>
     </div>

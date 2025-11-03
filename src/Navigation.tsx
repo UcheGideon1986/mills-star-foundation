@@ -1,26 +1,22 @@
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Heart } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from './components/figma/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
-interface NavigationProps {
-  currentPage: string;
-  setCurrentPage: (page: string) => void;
-}
-
-export function Navigation({ currentPage, setCurrentPage }: NavigationProps) {
+export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'gallery', label: 'Gallery' },
-    { id: 'blog', label: 'Upcoming Events' },
-    { id: 'contact', label: 'Contact' },
+    { id: '/', label: 'Home' },
+    { id: '/about', label: 'About' },
+    { id: '/gallery', label: 'Gallery' },
+    { id: '/blog', label: 'Upcoming Events' },
+    { id: '/contact', label: 'Contact' },
   ];
 
-  const handleNavClick = (page: string) => {
-    setCurrentPage(page);
-    setMobileMenuOpen(false);
+  const handleNavClick = () => {
+    setMobileMenu(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -29,39 +25,36 @@ export function Navigation({ currentPage, setCurrentPage }: NavigationProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div 
-            className="flex items-center gap-3 cursor-pointer"
-            onClick={() => handleNavClick('home')}
-          >
+          <Link to="/" className="flex items-center gap-3">
             <img 
               src="/logo.png" 
               alt="Mills Star Foundation Logo" 
               className="h-16 w-16 object-contain"
             />
             <span className="text-blue-900 font-semibold text-xl">Mills Star Foundation</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <button
+              <Link
                 key={item.id}
-                onClick={() => handleNavClick(item.id)}
+                to={item.id}
+                onClick={handleNavClick}
                 className={`transition-colors ${
-                  currentPage === item.id
+                  location.pathname === item.id
                     ? 'text-blue-600'
                     : 'text-gray-700 hover:text-blue-600'
                 }`}
               >
                 {item.label}
-              </button>
+              </Link>
             ))}
-            <Button
-              onClick={() => handleNavClick('donate')}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              Donate Now
-            </Button>
+            <Link to="/donate">
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                Donate Now
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -81,25 +74,25 @@ export function Navigation({ currentPage, setCurrentPage }: NavigationProps) {
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t">
             {navItems.map((item) => (
-              <button
+              <Link
                 key={item.id}
-                onClick={() => handleNavClick(item.id)}
+                to={item.id}
+                onClick={handleNavClick}
                 className={`block w-full text-left py-2 px-4 transition-colors ${
-                  currentPage === item.id
+                  location.pathname === item.id
                     ? 'text-blue-600 bg-blue-50'
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 {item.label}
-              </button>
+              </Link>
             ))}
             <div className="px-4 pt-2">
-              <Button
-                onClick={() => handleNavClick('donate')}
-                className="w-full bg-blue-600 hover:bg-blue-700"
-              >
-                Donate Now
-              </Button>
+              <Link to="/donate" className="w-full">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                  Donate Now
+                </Button>
+              </Link>
             </div>
           </div>
         )}
