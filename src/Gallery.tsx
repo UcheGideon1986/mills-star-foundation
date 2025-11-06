@@ -19,35 +19,112 @@ export function Gallery() {
   const [lightboxImage, setLightboxImage] = useState<UploadedImage | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number>(0);
 
-  // Load images from cloud (with localStorage fallback)
+  // Static gallery images
+  const staticGalleryImages = [
+    {
+      id: 'static-1',
+      url: '/hero-slides/wheelchair-basketball.jpg',
+      title: 'Wheelchair Basketball',
+      category: 'sports',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-2',
+      url: '/blog-images/health-education-ghana.jpg',
+      title: 'Health Education',
+      category: 'education',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-3',
+      url: '/blog-images/wheelchair-tennis-accra.jpg',
+      title: 'Tennis in Accra',
+      category: 'sports',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-4',
+      url: '/blog-images/wheelchair-tennis-lagos.jpg',
+      title: 'Tennis in Lagos',
+      category: 'sports',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-5',
+      url: '/images/young-stars/young-players.jpg',
+      title: 'Young Players',
+      category: 'young-stars',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-6',
+      url: '/images/young-stars/young-star-good-play.jpg',
+      title: 'Great Play',
+      category: 'young-stars',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-7',
+      url: '/images/young-stars/young-star-in-actoin.jpg',
+      title: 'Action Shot',
+      category: 'young-stars',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-8',
+      url: '/images/young-stars/young-star-shoot.jpg',
+      title: 'Perfect Shot',
+      category: 'young-stars',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-9',
+      url: '/images/young-stars/young-stars.jpg',
+      title: 'Young Stars Team',
+      category: 'young-stars',
+      uploadDate: new Date().toISOString()
+    },
+    {
+      id: 'static-10',
+      url: '/images/young-stars/young-tennis-star.jpg',
+      title: 'Tennis Star',
+      category: 'young-stars',
+      uploadDate: new Date().toISOString()
+    }
+  ];
+
+  // Load images from cloud (with localStorage fallback) and combine with static images
   useEffect(() => {
     const loadImages = async () => {
       try {
+        let uploadedImages: UploadedImage[] = [];
+        
         // Try to fetch from cloud first
         const data = await fetchAllData();
         if (data.images && data.images.length > 0) {
-          const localImages = data.images.map((img: any) => ({
+          uploadedImages = data.images.map((img: any) => ({
             id: img.id,
             url: img.url,
             title: img.alt || 'Image',
-            category: 'gallery',
+            category: img.category || 'gallery',
             uploadDate: img.uploadedAt || new Date().toISOString(),
           }));
-          setImages(localImages);
         } else {
           // Fallback to localStorage
           const storedImages = localStorage.getItem('millsStarImages');
           if (storedImages) {
-            setImages(JSON.parse(storedImages));
+            uploadedImages = JSON.parse(storedImages);
           }
         }
+        
+        // Combine static images with uploaded images
+        setImages([...staticGalleryImages, ...uploadedImages]);
+        
       } catch (error) {
         console.error('Error loading images from cloud:', error);
-        // Fallback to localStorage
-        const storedImages = localStorage.getItem('millsStarImages');
-        if (storedImages) {
-          setImages(JSON.parse(storedImages));
-        }
+        // Fallback to static images + localStorage if available
+        const storedImages = localStorage.getItem('millsStarImages') || '[]';
+        setImages([...staticGalleryImages, ...JSON.parse(storedImages)]);
       }
     };
 

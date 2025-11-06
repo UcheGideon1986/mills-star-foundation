@@ -101,23 +101,23 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
         const staticImages = [
           {
             id: 'img1',
-            url: '/hero-slides/wheelchair-basketball.jpg',
-            title: 'Wheelchair Basketball',
+            url: `${baseUrl}images/impact/wheelchair-sports.jpg`,
+            title: 'Wheelchair Sports',
             category: 'sports',
             uploadDate: new Date().toISOString()
           },
           {
             id: 'img2',
-            url: '/blog-images/wheelchair-tennis-accra.jpg',
-            title: 'Tennis in Accra',
-            category: 'sports',
+            url: `${baseUrl}images/impact/books-donation.jpg`,
+            title: 'Book Donation',
+            category: 'education',
             uploadDate: new Date().toISOString()
           },
           {
             id: 'img3',
-            url: '/blog-images/wheelchair-tennis-lagos.jpg',
-            title: 'Tennis in Lagos',
-            category: 'sports',
+            url: `${baseUrl}images/impact/feeding-program.jpg`,
+            title: 'Feeding Program',
+            category: 'community',
             uploadDate: new Date().toISOString()
           },
           {
@@ -504,7 +504,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Book Donation Impact */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative aspect-video w-full overflow-hidden">
                 <img
                   src={`${baseUrl}images/impact/books-donation.jpg`}
                   alt="Donated books to kids in school"
@@ -514,6 +514,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                     target.onerror = null;
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Books+Donation';
                   }}
+                  loading="lazy"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -529,7 +531,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
             {/* Wheelchair Mobility Impact */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative aspect-video w-full overflow-hidden">
                 <img
                   src={`${baseUrl}images/impact/wheelchair-mary.jpg`}
                   alt="Mary with her new wheelchair"
@@ -539,6 +541,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                     target.onerror = null;
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Wheelchair+Donation';
                   }}
+                  loading="lazy"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -554,7 +558,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
             {/* Feeding Program Impact */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative aspect-video w-full overflow-hidden">
                 <img
                   src={`${baseUrl}images/impact/feeding-program.jpg`}
                   alt="Children receiving meals"
@@ -564,6 +568,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                     target.onerror = null;
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Feeding+Program';
                   }}
+                  loading="lazy"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -579,7 +585,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
             {/* School Chairs Impact */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative aspect-video w-full overflow-hidden">
                 <img
                   src={`${baseUrl}images/impact/school-chairs.jpg`}
                   alt="Students with new school chairs"
@@ -589,6 +595,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                     target.onerror = null;
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=School+Chairs';
                   }}
+                  loading="lazy"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -604,7 +612,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
             {/* Sanitary Pads Distribution */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative aspect-video w-full overflow-hidden">
                 <img
                   src={`${baseUrl}images/impact/sanitary-pads.jpg`}
                   alt="Distribution of sanitary pads"
@@ -614,6 +622,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                     target.onerror = null;
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Sanitary+Pads';
                   }}
+                  loading="lazy"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -629,7 +639,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
             {/* Wheelchair Sports Impact */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative aspect-video w-full overflow-hidden">
                 <img
                   src={baseUrl + 'images/impact/wheelchair-sports.jpg'}
                   alt="Annual wheelchair sports event"
@@ -639,6 +649,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                     target.onerror = null;
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Wheelchair+Sports';
                   }}
+                  loading="lazy"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">

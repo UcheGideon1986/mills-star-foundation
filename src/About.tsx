@@ -107,16 +107,55 @@ export function About() {
         </div>
       </section>
 
-      {/* Programs */}
+      {/* Impact Stats */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center text-blue-900 mb-12">Our Impact</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            <div className="text-center p-6 bg-blue-50 rounded-lg">
+              <div className="flex justify-center text-blue-600 mb-4">
+                <Users className="h-10 w-10" />
+              </div>
+              <div className="text-3xl font-bold text-blue-900 mb-2">3</div>
+              <p className="text-gray-600">Countries</p>
+            </div>
+            <div className="text-center p-6 bg-blue-50 rounded-lg">
+              <div className="flex justify-center text-blue-600 mb-4">
+                <BookOpen className="h-10 w-10" />
+              </div>
+              <div className="text-3xl font-bold text-blue-900 mb-2">1000+</div>
+              <p className="text-gray-600">Books Donated</p>
+            </div>
+            <div className="text-center p-6 bg-blue-50 rounded-lg">
+              <div className="flex justify-center text-blue-600 mb-4">
+                <Users className="h-10 w-10" />
+              </div>
+              <div className="text-3xl font-bold text-blue-900 mb-2">2500+</div>
+              <p className="text-gray-600">Lives Impacted</p>
+            </div>
+            <div className="text-center p-6 bg-blue-50 rounded-lg">
+              <div className="flex justify-center text-blue-600 mb-4">
+                <Target className="h-10 w-10" />
+              </div>
+              <div className="text-3xl font-bold text-blue-900 mb-2">6</div>
+              <p className="text-gray-600">Sports Programs</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Programs */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-blue-900 mb-12">Our Programs</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 gap-8">
             {programs.map((program, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="text-blue-600 mb-4">{program.icon}</div>
-                  <CardTitle>{program.title}</CardTitle>
+              <Card key={index} className="h-full transition-all duration-300 hover:shadow-lg">
+                <CardHeader className="flex flex-row items-center space-x-4">
+                  <div className="p-3 bg-blue-100 rounded-lg text-blue-600">
+                    {program.icon}
+                  </div>
+                  <CardTitle className="text-xl">{program.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">{program.description}</p>
