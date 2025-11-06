@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, Users, BookOpen, Activity, Target, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Team from './Team';
 import { Button } from './components/figma/ui/button';
@@ -20,37 +20,74 @@ interface HomeProps {
 }
 
 export function Home({ setCurrentPage }: HomeProps = {}) {
+  const baseUrl = import.meta.env.BASE_URL || '';
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [siteImages, setSiteImages] = useState<Record<string, string>>({});
   const [impactImages, setImpactImages] = useState<UploadedImage[]>([]);
   const [customImpactStats, setCustomImpactStats] = useState<any[]>([]);
 
-  // Default fallback images
+  // Gallery images - Only show Health Education on home page
+  // Other images will be shown on the full gallery page
   const defaultGalleryImages = [
     {
-      url: 'https://images.unsplash.com/photo-1657145537587-bc61af46050c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGVlbGNoYWlyJTIwYmFza2V0YmFsbHxlbnwxfHx8fDE3NjA2ODU2Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      url: '/blog-images/health-education-ghana.jpg',
+      title: 'Health Education',
+      category: 'education'
+    }
+  ];
+
+  // All gallery images for the full gallery page
+  const allGalleryImages = [
+    {
+      url: '/hero-slides/wheelchair-basketball.jpg',
       title: 'Wheelchair Basketball',
+      category: 'sports'
     },
     {
-      url: 'https://images.unsplash.com/photo-1740572497508-e5d62c77f4bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGVlbGNoYWlyJTIwc3BvcnRzJTIwY29tbXVuaXR5fGVufDF8fHx8MTc2MDY4NTYyN3ww&ixlib=rb-4.1.0&q=80&w=1080',
-      title: 'Community Sports',
+      url: '/blog-images/health-education-ghana.jpg',
+      title: 'Health Education',
+      category: 'education'
     },
     {
-      url: 'https://images.unsplash.com/photo-1592106680408-e7e63efbc7ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMHJlYWRpbmclMjBib29rc3xlbnwxfHx8fDE3NjA2MDMxMTV8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      title: 'Reading Programs',
+      url: '/blog-images/wheelchair-tennis-accra.jpg',
+      title: 'Tennis in Accra',
+      category: 'sports'
     },
     {
-      url: 'https://images.unsplash.com/photo-1759756480941-7230dedf5fc9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2b2NhdGlvbmFsJTIwdHJhaW5pbmclMjB3b3Jrc2hvcHxlbnwxfHx8fDE3NjA2ODU2Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      title: 'Vocational Training',
+      url: '/blog-images/wheelchair-tennis-lagos.jpg',
+      title: 'Tennis in Lagos',
+      category: 'sports'
     },
     {
-      url: 'https://images.unsplash.com/photo-1758599668125-e154250f24bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjB2b2x1bnRlZXJzJTIwaGVscGluZ3xlbnwxfHx8fDE3NjA2Mzg4NDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      title: 'Community Outreach',
+      url: `${baseUrl}images/young-stars/young-players.jpg`,
+      title: 'Young Players',
+      category: 'young-stars'
     },
     {
-      url: 'https://images.unsplash.com/photo-1624695493609-c7cb60e7e583?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBZnJpY2FuJTIwY29tbXVuaXR5JTIwc3VwcG9ydHxlbnwxfHx8fDE3NjA2ODU2Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      title: 'Community Support',
+      url: `${baseUrl}images/young-stars/young-star-good-play.jpg`,
+      title: 'Great Play',
+      category: 'young-stars'
     },
+    {
+      url: `${baseUrl}images/young-stars/young-star-in-actoin.jpg`,
+      title: 'Action Shot',
+      category: 'young-stars'
+    },
+    {
+      url: `${baseUrl}images/young-stars/young-star-shoot.jpg`,
+      title: 'Perfect Shot',
+      category: 'young-stars'
+    },
+    {
+      url: `${baseUrl}images/young-stars/young-stars.jpg`,
+      title: 'Young Stars Team',
+      category: 'young-stars'
+    },
+    {
+      url: `${baseUrl}images/young-stars/young-tennis-star.jpg`,
+      title: 'Tennis Star',
+      category: 'young-stars'
+    }
   ];
 
   // Load images from cloud (with localStorage fallback)
@@ -60,22 +97,95 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
         // Try to fetch from cloud first
         const data = await fetchAllData();
         
+        // Static images to be moved to recent photos
+        const staticImages = [
+          {
+            id: 'img1',
+            url: '/hero-slides/wheelchair-basketball.jpg',
+            title: 'Wheelchair Basketball',
+            category: 'sports',
+            uploadDate: new Date().toISOString()
+          },
+          {
+            id: 'img2',
+            url: '/blog-images/wheelchair-tennis-accra.jpg',
+            title: 'Tennis in Accra',
+            category: 'sports',
+            uploadDate: new Date().toISOString()
+          },
+          {
+            id: 'img3',
+            url: '/blog-images/wheelchair-tennis-lagos.jpg',
+            title: 'Tennis in Lagos',
+            category: 'sports',
+            uploadDate: new Date().toISOString()
+          },
+          {
+            id: 'img4',
+            url: `${baseUrl}images/young-stars/young-players.jpg`,
+            title: 'Young Players',
+            category: 'young-stars',
+            uploadDate: new Date().toISOString()
+          },
+          {
+            id: 'img5',
+            url: `${baseUrl}images/young-stars/young-star-good-play.jpg`,
+            title: 'Great Play',
+            category: 'young-stars',
+            uploadDate: new Date().toISOString()
+          },
+          {
+            id: 'img6',
+            url: `${baseUrl}images/young-stars/young-star-in-actoin.jpg`,
+            title: 'Action Shot',
+            category: 'young-stars',
+            uploadDate: new Date().toISOString()
+          },
+          {
+            id: 'img7',
+            url: `${baseUrl}images/young-stars/young-star-shoot.jpg`,
+            title: 'Perfect Shot',
+            category: 'young-stars',
+            uploadDate: new Date().toISOString()
+          },
+          {
+            id: 'img8',
+            url: `${baseUrl}images/young-stars/young-stars.jpg`,
+            title: 'Young Stars Team',
+            category: 'young-stars',
+            uploadDate: new Date().toISOString()
+          },
+          {
+            id: 'img9',
+            url: `${baseUrl}images/young-stars/young-tennis-star.jpg`,
+            title: 'Tennis Star',
+            category: 'young-stars',
+            uploadDate: new Date().toISOString()
+          }
+        ];
+
         if (data.images && data.images.length > 0) {
-          const localImages = data.images.map((img: any) => ({
-            id: img.id,
-            url: img.url,
-            title: img.alt || 'Image',
-            category: 'gallery',
-            uploadDate: img.uploadedAt || new Date().toISOString(),
-          }));
-          // Get only the latest 6 images for home page
-          setUploadedImages(localImages.slice(-6).reverse());
+          const localImages = [
+            ...staticImages,
+            ...data.images.map((img: any) => ({
+              id: img.id,
+              url: img.url,
+              title: img.alt || 'Image',
+              category: img.category || 'gallery',
+              uploadDate: img.uploadedAt || new Date().toISOString(),
+            }))
+          ];
+          // Get only the latest 12 images for home page (6 static + 6 from uploads)
+          setUploadedImages(localImages.slice(-12).reverse());
         } else {
           // Fallback to localStorage
           const storedImages = localStorage.getItem('millsStarImages');
           if (storedImages) {
             const images = JSON.parse(storedImages);
-            setUploadedImages(images.slice(-6).reverse());
+            setUploadedImages([...staticImages, ...images].slice(-12).reverse());
+          } else {
+            // If no stored images, just use the static ones
+            setUploadedImages(staticImages);
           }
         }
         
@@ -143,10 +253,9 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
     };
   }, []);
 
-  // Use impact images if available, otherwise use defaults
-  const galleryImages = impactImages.length > 0 && impactImages.some(img => img.url)
-    ? impactImages.filter(img => img.url) // Only show images that have been uploaded
-    : defaultGalleryImages;
+  // Use only default gallery images (original + young stars)
+  const galleryImages = [...defaultGalleryImages];
+  const uniqueGalleryImages = galleryImages; // No need for deduplication since we're not combining with impact images
 
   const sports = [
     { icon: '🏀', name: 'Wheelchair Basketball' },
@@ -155,6 +264,25 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
     { icon: '🏓', name: 'Wheelchair Table Tennis' },
     { icon: '🏁', name: 'Wheelchair Racing' },
     { icon: '⚡', name: 'Wheelchair Power Nifty' },
+  ];
+
+  // Hero slideshow images - All images from hero-slides directory + young stars
+  const heroSlides = [
+    // Existing hero slides
+    '/hero-slides/wheelchair-basketball.jpg',
+    '/hero-slides/wheelchair-tennis-accra.jpg',
+    // Newly added hero slides
+    '/hero-slides/240757204_4414795455255639_2104738923654322957_n.jpg',
+    '/hero-slides/839b7e40-662a-11ef-b737-11b40758ce69.jpg',
+    '/hero-slides/Foluke-Shittu-Nigeria-Wheelchair-Basketball-player.jpg',
+    '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
+    // Young stars images
+    `${baseUrl}images/young-stars/young-players.jpg`,
+    `${baseUrl}images/young-stars/young-star-good-play.jpg`,
+    `${baseUrl}images/young-stars/young-star-in-actoin.jpg`,
+    `${baseUrl}images/young-stars/young-star-shoot.jpg`,
+    `${baseUrl}images/young-stars/young-stars.jpg`,
+    `${baseUrl}images/young-stars/young-tennis-star.jpg`
   ];
 
   // Default impact stats
@@ -190,100 +318,98 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
   // Hero slideshow state
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [heroSlides, setHeroSlides] = useState<string[]>([]);
+  const [slides, setSlides] = useState<string[]>([]);
 
   // Load hero slideshow images
   useEffect(() => {
-    const loadHeroSlides = async () => {
-      try {
-        // Try to load from JSON file first (for cross-device sync)
-        const response = await fetch('/data/images.json');
-        const data = await response.json();
-        
-        if (data.heroSlides && data.heroSlides.length > 0) {
-          setHeroSlides(data.heroSlides);
-          return;
-        }
-      } catch (error) {
-        console.log('Could not load hero slides from JSON, trying localStorage');
-      }
-      
-      // Fallback to localStorage
-      const storedSlides = localStorage.getItem('millsStarHeroSlides');
-      if (storedSlides) {
-        setHeroSlides(JSON.parse(storedSlides));
-      } else {
-        // Default slideshow images
-        const defaultSlides = [
-          siteImages['heroHome'] || "https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920"
-        ];
-        setHeroSlides(defaultSlides);
-      }
-    };
+    // All slides including hero-slides and young stars
+    const allSlides = [
+      // Existing hero slides
+      '/hero-slides/wheelchair-basketball.jpg',
+      '/hero-slides/wheelchair-tennis-accra.jpg',
+      // Newly added hero slides
+      '/hero-slides/240757204_4414795455255639_2104738923654322957_n.jpg',
+      '/hero-slides/839b7e40-662a-11ef-b737-11b40758ce69.jpg',
+      '/hero-slides/Foluke-Shittu-Nigeria-Wheelchair-Basketball-player.jpg',
+      '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
+      // Young stars images
+      `${baseUrl}images/young-stars/young-players.jpg`,
+      `${baseUrl}images/young-stars/young-star-good-play.jpg`,
+      `${baseUrl}images/young-stars/young-star-in-actoin.jpg`,
+      `${baseUrl}images/young-stars/young-star-shoot.jpg`,
+      `${baseUrl}images/young-stars/young-stars.jpg`,
+      `${baseUrl}images/young-stars/young-tennis-star.jpg`
+    ];
     
-    loadHeroSlides();
-  }, [siteImages]);
+    setSlides(allSlides);
+    
+    // Log the image paths for debugging
+    console.log('Hero slides:', allSlides);
+  }, []); // Removed impactImages dependency since we're not using them
 
   // Auto-advance slideshow every 5 seconds
   useEffect(() => {
-    if (heroSlides.length <= 1) return;
+    if (slides.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [heroSlides.length]);
+  }, [slides.length]);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
   return (
     <div>
       {/* Hero Section with Slideshow */}
-      <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[80vh] min-h-[500px] max-h-[800px] overflow-hidden">
         {/* Slideshow Images */}
-        {heroSlides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <ImageWithFallback
-              src={slide}
-              alt={`Mills Star Foundation - Slide ${index + 1}`}
-              className="absolute inset-0 w-full h-full object-cover object-top"
-              style={{ objectPosition: 'center 20%' }}
-            />
-          </div>
-        ))}
-        
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70 z-10" />
-        
-        {/* Content */}
-        <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="text-white mb-6">Empowering the Differently Abled</h1>
-          <p className="text-xl mb-8">
-            Through education, community engagement, vocational training, and wheelchair sports
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-900 hover:bg-gray-100">
-              Learn More <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Link to="/donate">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                Donate Now <Heart className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
+        <div className="absolute inset-0 w-full h-full">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <ImageWithFallback
+                src={slide}
+                alt={`Mills Star Foundation - Slide ${index + 1}`}
+                className="absolute inset-0 w-full h-full"
+                style={{
+                  objectFit: 'cover',
+                  // Adjust position based on slide index
+                  objectPosition: index === 0 ? 'center 30%' : 
+                                 index === slides.length - 1 ? 'center 40%' : 'center center',
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  minWidth: '100%',
+                  minHeight: '100%',
+                  backgroundSize: 'cover',
+                  backgroundPosition: index === 0 ? 'center 30%' : 
+                                    index === slides.length - 1 ? 'center 40%' : 'center center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundImage: `url(${slide})`,
+                  // Slight zoom out to ensure full image is visible
+                  transform: 'scale(1.05)'
+                }}
+              />
+            </div>
+          ))}
         </div>
+        
+        {/* Subtle overlay for better text contrast (optional) */}
+        <div className="absolute inset-0 bg-black/20 z-10" />
 
         {/* Navigation Arrows (only show if multiple slides) */}
         {heroSlides.length > 1 && (
@@ -322,58 +448,219 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
         )}
       </section>
 
-      {/* Impact Stats */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {impactStats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="flex justify-center text-blue-600 mb-4">
-                  {stat.icon}
-                </div>
-                <div className="text-blue-900 mb-2">{stat.number}</div>
-                <p className="text-gray-600">{stat.label}</p>
-              </div>
-            ))}
-          </div>
+      {/* Welcome Ticker */}
+      <div className="py-3 overflow-hidden bg-white">
+        <div className="animate-marquee whitespace-nowrap">
+          {[...Array(6)].map((_, i) => (
+            <React.Fragment key={i}>
+              <span className="text-xl font-bold mx-6 text-blue-900">WELCOME TO MILLS STAR FOUNDATION</span>
+              <span className="text-xl font-bold text-blue-900">•</span>
+            </React.Fragment>
+          ))}
         </div>
-      </section>
+      </div>
 
       {/* Mission Statement */}
-      <section className="py-16">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-blue-900 mb-6">WE SEE YOU!</h2>
-            <p className="text-gray-700 text-lg mb-4">
-              Founded in 2020, Mills Star Foundation is a United States based organization focused on empowering disabled individuals through education, community engagement, vocational training and the provision of mobility devices and equipment.
-            </p>
-            <p className="text-gray-700">
-              We currently operate in the U.S, Ghana and Nigeria with plans to expand throughout West Africa and beyond.
-            </p>
+          <div className="flex flex-col md:flex-row items-start">
+            {/* Image - Left Side */}
+            <div className="w-full md:w-1/2 order-1">
+              <div className="relative">
+                <img
+                  src="/images/wheelchair-action.jpg"
+                  alt="Wheelchair basketball players in action"
+                  className="w-full h-auto max-h-[500px] object-cover object-left"
+                  style={{ borderTopRightRadius: '0.5rem', borderBottomRightRadius: '0.5rem' }}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = 'https://images.unsplash.com/photo-1608889825205-eeb9539a4389?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Text Content - Right Side */}
+            <div className="w-full md:w-1/2 order-2 bg-white p-8">
+              <h2 className="text-blue-900 text-2xl md:text-3xl font-bold mb-6 uppercase tracking-wider">WE SEE YOU!</h2>
+              <div className="space-y-6 text-gray-700 text-base leading-relaxed">
+                <p>
+                  Founded in 2020, Mills Star Foundation is a United States based organization focused on empowering disabled individuals through education, community engagement, vocational training and the provision of mobility devices and equipment.
+                </p>
+                <p>
+                  We currently operate in the U.S, Ghana and Nigeria with plans to expand throughout West Africa and beyond.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Gallery Section */}
+      {/* Impact in Action Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-blue-900 mb-12">Our Impact in Action</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {galleryImages.map((image, index) => (
-              <div
-                key={index}
-                className="relative h-80 overflow-hidden rounded-lg shadow-lg group cursor-pointer"
-              >
-                <ImageWithFallback
-                  src={image.url}
-                  alt={image.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Book Donation Impact */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={`${baseUrl}images/impact/books-donation.jpg`}
+                  alt="Donated books to kids in school"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Books+Donation';
+                  }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                  <p className="text-white p-6">{image.title}</p>
-                </div>
               </div>
-            ))}
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-blue-900 mb-3">1,000 Books Donated</h3>
+                <p className="text-gray-700 mb-4">
+                  We've distributed over 1,000 books to underprivileged schools, helping to build a culture of reading and learning among children in Ghana and Nigeria. Each book opens a new world of possibilities for these young minds.
+                </p>
+                <Button variant="link" className="text-blue-600 p-0 hover:underline">
+                  Read more <ArrowRight className="ml-1 h-4 w-4 inline" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Wheelchair Mobility Impact */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={`${baseUrl}images/impact/wheelchair-mary.jpg`}
+                  alt="Mary with her new wheelchair"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Wheelchair+Donation';
+                  }}
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-blue-900 mb-3">Mobility for Mary</h3>
+                <p className="text-gray-700 mb-4">
+                  Mary from Jos North Local Government received a custom-fitted wheelchair, restoring her independence and mobility. Her smile says it all - this is more than just a chair, it's freedom and dignity restored.
+                </p>
+                <Button variant="link" className="text-blue-600 p-0 hover:underline">
+                  Read Mary's story <ArrowRight className="ml-1 h-4 w-4 inline" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Feeding Program Impact */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={`${baseUrl}images/impact/feeding-program.jpg`}
+                  alt="Children receiving meals"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Feeding+Program';
+                  }}
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-blue-900 mb-3">1,000+ Children Fed Annually</h3>
+                <p className="text-gray-700 mb-4">
+                  Our annual feeding program provides nutritious meals to over 1,000 children across Nigeria and Ghana. A well-fed child is better able to learn, grow, and thrive in school and in life.
+                </p>
+                <Button variant="link" className="text-blue-600 p-0 hover:underline">
+                  Learn about our programs <ArrowRight className="ml-1 h-4 w-4 inline" />
+                </Button>
+              </div>
+            </div>
+
+            {/* School Chairs Impact */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={`${baseUrl}images/impact/school-chairs.jpg`}
+                  alt="Students with new school chairs"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=School+Chairs';
+                  }}
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-blue-900 mb-3">500+ School Chairs Provided</h3>
+                <p className="text-gray-700 mb-4">
+                  We've supplied over 500 school chairs to educational institutions in need across Nigeria and Ghana, ensuring students have proper seating to focus on their education in comfort.
+                </p>
+                <Button variant="link" className="text-blue-600 p-0 hover:underline">
+                  Support education <ArrowRight className="ml-1 h-4 w-4 inline" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Sanitary Pads Distribution */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={`${baseUrl}images/impact/sanitary-pads.jpg`}
+                  alt="Distribution of sanitary pads"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Sanitary+Pads';
+                  }}
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-blue-900 mb-3">200 Sanitary Pads Distributed</h3>
+                <p className="text-gray-700 mb-4">
+                  We've distributed 200+ sanitary pads to young female students in underserved communities, helping them stay in school and maintain their dignity during their menstrual cycles.
+                </p>
+                <Button variant="link" className="text-blue-600 p-0 hover:underline">
+                  Support women's health <ArrowRight className="ml-1 h-4 w-4 inline" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Wheelchair Sports Impact */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={baseUrl + 'images/impact/wheelchair-sports.jpg'}
+                  alt="Annual wheelchair sports event"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Wheelchair+Sports';
+                  }}
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-blue-900 mb-3">Annual Wheelchair Sports</h3>
+                <p className="text-gray-700 mb-4">
+                  Our annual wheelchair sports event brings together athletes of all abilities to compete, build confidence, and break down barriers. It's more than a game - it's about empowerment and inclusion.
+                </p>
+                <Button variant="link" className="text-blue-600 p-0 hover:underline">
+                  Join our next event <ArrowRight className="ml-1 h-4 w-4 inline" />
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          <div className="text-center mt-12">
+            <Button 
+              variant="outline" 
+              className="border-blue-600 text-blue-600 hover:bg-blue-50"
+              onClick={() => setCurrentPage?.('gallery')}
+            >
+              View Full Impact Gallery <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         </div>
       </section>
@@ -459,7 +746,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
             Your donation helps us provide education, training, and opportunities to the differently abled community
           </p>
           <Link to="/donate">
-            <Button size="lg" className="bg-white text-blue-900 hover:bg-gray-100">
+            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700">
               Donate Now <Heart className="ml-2 h-5 w-5" />
             </Button>
           </Link>
