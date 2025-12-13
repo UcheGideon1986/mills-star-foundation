@@ -1,0 +1,24 @@
+{
+  "videos": [
+    {
+      "id": "yt-1",
+      "title": "Mills Star – Introduction",
+      "description": "Who we are and what we do",
+      "category": "foundation",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "https://placehold.co/800x450/1e40af/ffffff?text=YouTube",
+      "sourceType": "youtube",
+      "uploadedAt": "2025-12-13T00:00:00.000Z"
+    },
+    {
+      "id": "local-1",
+      "title": "Wheelchair Basketball Highlights",
+      "description": "Recent match highlights",
+      "category": "sports",
+      "url": "/videos/sample-highlights.mp4",
+      "thumbnail": "/hero-slides/wheelchair-basketball.jpg",
+      "sourceType": "file",
+      "uploadedAt": "2025-12-13T00:00:00.000Z"
+    }
+  ]
+}

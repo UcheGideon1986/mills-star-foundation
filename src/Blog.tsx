@@ -18,7 +18,7 @@ interface BlogPost {
 
 export function Blog() {
   const [customBlogPosts, setCustomBlogPosts] = useState<BlogPost[]>([]);
-  const [blogHeroTitle, setBlogHeroTitle] = useState('Upcoming Events');
+  const [blogHeroTitle, setBlogHeroTitle] = useState('Event');
   const [blogHeroTagline, setBlogHeroTagline] = useState('Join us for our upcoming events and activities');
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 

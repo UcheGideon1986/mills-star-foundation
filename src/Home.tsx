@@ -323,28 +323,31 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   // Load hero slideshow images
   useEffect(() => {
     // All slides including hero-slides and young stars
-    const allSlides = [
-      // Existing hero slides
-      '/hero-slides/wheelchair-basketball.jpg',
+    const candidates = [
+      '/hero-slides/wheelchair-basketball-recent.jpg',
+      '/hero-slides/wheelchair-basketball-recent-2.jpg',
+      '/hero-slides/wheelchair-athlete-track.jpg',
+      '/hero-slides/wheelchair-table-tennis.jpg',
       '/hero-slides/wheelchair-tennis-accra.jpg',
-      // Newly added hero slides
-      '/hero-slides/240757204_4414795455255639_2104738923654322957_n.jpg',
-      '/hero-slides/839b7e40-662a-11ef-b737-11b40758ce69.jpg',
-      '/hero-slides/Foluke-Shittu-Nigeria-Wheelchair-Basketball-player.jpg',
       '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
-      // Young stars images
-      `${baseUrl}images/young-stars/young-players.jpg`,
-      `${baseUrl}images/young-stars/young-star-good-play.jpg`,
-      `${baseUrl}images/young-stars/young-star-in-actoin.jpg`,
-      `${baseUrl}images/young-stars/young-star-shoot.jpg`,
-      `${baseUrl}images/young-stars/young-stars.jpg`,
       `${baseUrl}images/young-stars/young-tennis-star.jpg`
     ];
-    
-    setSlides(allSlides);
-    
-    // Log the image paths for debugging
-    console.log('Hero slides:', allSlides);
+
+    const preload = (src: string) =>
+      new Promise<string>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(src);
+        img.onerror = () => reject(src);
+        img.src = src;
+      });
+
+    Promise.allSettled(candidates.map(preload)).then((results) => {
+      const ok = results
+        .filter((r) => r.status === 'fulfilled')
+        .map((r: any) => r.value as string);
+      setSlides(ok);
+      console.log('Hero slides loaded:', ok);
+    });
   }, []); // Removed impactImages dependency since we're not using them
 
   // Auto-advance slideshow every 5 seconds
@@ -404,6 +407,9 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                   transform: 'scale(1.05)'
                 }}
               />
+              <div className="absolute top-4 right-4 z-30 bg-black/50 text-white text-xs font-semibold px-2 py-1 rounded">
+                {index + 1}
+              </div>
             </div>
           ))}
         </div>
@@ -412,7 +418,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
         <div className="absolute inset-0 bg-black/20 z-10" />
 
         {/* Navigation Arrows (only show if multiple slides) */}
-        {heroSlides.length > 1 && (
+        {slides.length > 1 && (
           <>
             <button
               onClick={prevSlide}
@@ -431,7 +437,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
             {/* Slide Indicators */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-              {heroSlides.map((_, index) => (
+              {slides.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}

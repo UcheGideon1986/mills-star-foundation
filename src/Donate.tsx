@@ -78,7 +78,7 @@ export function Donate() {
       {/* Donation Form */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-1 gap-8">
             {/* Main Donation Form */}
             <div className="md:col-span-2">
               <Card className="shadow-lg">
@@ -93,7 +93,7 @@ export function Donate() {
                     {/* Amount Selection */}
                     <div>
                       <Label>Select Amount (USD)</Label>
-                      <div className="grid grid-cols-3 gap-4 mt-4">
+                      <div className="grid grid-cols-1 gap-4 mt-4">
                         {donationAmounts.map((amount) => (
                           <button
                             key={amount}
@@ -148,9 +148,9 @@ export function Donate() {
                     {/* Payment Method Tabs */}
                     <div>
                       <Label>Payment Method</Label>
-                      <Tabs defaultValue="card" className="mt-4">
-                        <TabsList className="grid w-full grid-cols-3">
-                          <TabsTrigger value="card">
+                      <Tabs defaultValue="bank" className="mt-4">
+                        <TabsList className="grid w-full grid-cols-1">
+                          <TabsTrigger value="card" disabled>
                             <CreditCard className="h-4 w-4 mr-2" />
                             Card
                           </TabsTrigger>
@@ -158,7 +158,7 @@ export function Donate() {
                             <Building2 className="h-4 w-4 mr-2" />
                             Bank
                           </TabsTrigger>
-                          <TabsTrigger value="mobile">
+                          <TabsTrigger value="mobile" disabled>
                             <Smartphone className="h-4 w-4 mr-2" />
                             Mobile
                           </TabsTrigger>
@@ -180,14 +180,19 @@ export function Donate() {
                           </div>
                         </TabsContent>
                         <TabsContent value="bank" className="mt-4">
-                          <p className="text-gray-600 mb-4">
-                            Bank transfer details will be provided after submission.
-                          </p>
-                          <div>
-                            <Label htmlFor="bankName">Bank Name</Label>
-                            <Input id="bankName" placeholder="Your bank name" className="mt-2" />
-                          </div>
-                        </TabsContent>
+  <div className="space-y-4">
+    <div className="rounded-lg border-2 border-blue-600 bg-blue-50 p-4">
+      <h3 className="text-blue-900 text-lg font-bold mb-2">Bank Transfer Details</h3>
+      <ul className="space-y-1 text-blue-900">
+        <li><span className="font-semibold">Bank Name:</span> Navy Federal Credit Union Bank</li>
+        <li><span className="font-semibold">Account Name:</span> Francis Mills</li>
+        <li><span className="font-semibold">Account Number:</span> 7210325762</li>
+        <li><span className="font-semibold">Routing Number:</span> 256074974</li>
+      </ul>
+    </div>
+    <p className="text-sm text-gray-600">Please make a bank transfer using the details above. Card and PayPal are temporarily unavailable.</p>
+  </div>
+</TabsContent>
                         <TabsContent value="mobile" className="mt-4">
                           <p className="text-gray-600 mb-4">
                             Mobile payment options available for Ghana and Nigeria.
@@ -285,7 +290,7 @@ export function Donate() {
               Every dollar makes a difference in the lives of differently abled individuals
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-6">
             {impactAreas.map((area, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>

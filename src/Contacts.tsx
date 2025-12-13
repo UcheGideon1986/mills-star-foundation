@@ -17,8 +17,8 @@ export function Contact() {
     {
       icon: <Phone className="h-6 w-6" />,
       title: 'Phone',
-      content: '+1 (555) 123-4567',
-      link: 'tel:+15551234567',
+      content: '+1 862 800 9271',
+      link: 'tel:+18628009271',
     },
     {
       icon: <MapPin className="h-6 w-6" />,
@@ -108,7 +108,7 @@ export function Contact() {
                   <Input
                     id="phone"
                     type="tel"
-                    placeholder="+1 (555) 123-4567"
+                    placeholder="+1 862 800 9271"
                     className="mt-2"
                   />
                 </div>
