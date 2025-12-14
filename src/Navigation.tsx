@@ -17,7 +17,7 @@ export function Navigation() {
   ];
 
   const handleNavClick = () => {
-    setMobileMenu(false);
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -32,7 +32,7 @@ export function Navigation() {
               alt="Mills Star Foundation Logo" 
               className="h-16 w-16 object-contain"
             />
-            <span className="text-blue-900 font-semibold text-xl">Mills Star Foundation</span>
+            <span className="text-blue-900 font-semibold text-2xl">Mills Star Foundation</span>
           </Link>
 
           {/* Desktop Navigation */}

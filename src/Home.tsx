@@ -324,6 +324,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   useEffect(() => {
     // All slides including hero-slides and young stars
     const candidates = [
+      '/hero-slides/whatsapp-2025-12-14-14-47-55.jpg',
+      '/hero-slides/whatsapp-2025-12-14-14-47-55-1.jpg',
       '/hero-slides/wheelchair-basketball-recent.jpg',
       '/hero-slides/wheelchair-basketball-recent-2.jpg',
       '/hero-slides/wheelchair-athlete-track.jpg',
@@ -387,24 +389,14 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                 alt={`Mills Star Foundation - Slide ${index + 1}`}
                 className="absolute inset-0 w-full h-full"
                 style={{
-                  objectFit: 'cover',
-                  // Adjust position based on slide index
-                  objectPosition: index === 0 ? 'center 30%' : 
-                                 index === slides.length - 1 ? 'center 40%' : 'center center',
+                  objectFit: 'contain',
+                  objectPosition: 'center',
                   width: '100%',
                   height: '100%',
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  minWidth: '100%',
-                  minHeight: '100%',
-                  backgroundSize: 'cover',
-                  backgroundPosition: index === 0 ? 'center 30%' : 
-                                    index === slides.length - 1 ? 'center 40%' : 'center center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundImage: `url(${slide})`,
-                  // Slight zoom out to ensure full image is visible
-                  transform: 'scale(1.05)'
+                  backgroundColor: '#000', // Black background for letterboxing
                 }}
               />
               <div className="absolute top-4 right-4 z-30 bg-black/50 text-white text-xs font-semibold px-2 py-1 rounded">
@@ -459,8 +451,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
         <div className="animate-marquee whitespace-nowrap">
           {[...Array(6)].map((_, i) => (
             <React.Fragment key={i}>
-              <span className="text-xl font-bold mx-6 text-blue-900">WELCOME TO MILLS STAR FOUNDATION</span>
-              <span className="text-xl font-bold text-blue-900">•</span>
+              <span className="text-2xl font-bold mx-6 text-blue-900">WELCOME TO MILLS STAR FOUNDATION</span>
+              <span className="text-2xl font-bold text-blue-900">•</span>
             </React.Fragment>
           ))}
         </div>
