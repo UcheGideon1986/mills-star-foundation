@@ -12,13 +12,6 @@ const Team = () => {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {/* Team Member Card */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
-            <div className="aspect-w-3 aspect-h-4">
-              <img
-                className="w-full h-96 object-cover"
-                src="/team/francis-bakre-mills.jpg"
-                alt="Mr Francis Bakre Mills"
-              />
-            </div>
             <div className="p-6">
               <h3 className="text-xl font-semibold text-gray-900">Mr Francis Bakre Mills</h3>
               <p className="text-blue-600 font-medium">Founder, Mills Star Foundation</p>

@@ -39,11 +39,6 @@ export function Contact() {
       {/* Hero Section */}
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-700/90 z-10" />
-        <ImageWithFallback
-          src="https://images.unsplash.com/photo-1758599668125-e154250f24bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjB2b2x1bnRlZXJzJTIwaGVscGluZ3xlbnwxfHx8fDE3NjA2Mzg4NDB8MA&ixlib=rb-4.1.0&q=80&w=1080"
-          alt="Contact Mills Star Foundation"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
         <div className="relative z-20 text-center text-white px-4">
           <h1 className="text-white mb-4">Get In Touch</h1>
           <p className="text-xl">We'd love to hear from you</p>

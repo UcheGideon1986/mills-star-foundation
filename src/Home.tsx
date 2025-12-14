@@ -324,8 +324,8 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   useEffect(() => {
     // All slides including hero-slides and young stars
     const candidates = [
-      '/hero-slides/whatsapp-2025-12-14-14-47-55.jpg',
-      '/hero-slides/whatsapp-2025-12-14-14-47-55-1.jpg',
+      '/hero-slides/screenshot-2025-12-14-15-54-58.png',
+      '/hero-slides/screenshot-2025-12-14-15-55-30.png',
       '/hero-slides/wheelchair-basketball-recent.jpg',
       '/hero-slides/wheelchair-basketball-recent-2.jpg',
       '/hero-slides/wheelchair-athlete-track.jpg',
@@ -376,7 +376,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
       {/* Hero Section with Slideshow */}
       <section className="relative h-[80vh] min-h-[500px] max-h-[800px] overflow-hidden">
         {/* Slideshow Images */}
-        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-50 to-blue-100">
+        <div className="absolute inset-0 w-full h-full">
           {slides.map((slide, index) => (
             <div
               key={index}
@@ -389,7 +389,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                 alt={`Mills Star Foundation - Slide ${index + 1}`}
                 className="absolute inset-0 w-full h-full"
                 style={{
-                  objectFit: 'contain',
+                  objectFit: 'cover',
                   objectPosition: 'center',
                   width: '100%',
                   height: '100%',
@@ -607,26 +607,26 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
               </div>
             </div>
 
-            {/* Sanitary Pads Distribution */}
+            {/* Feminine Hygiene Packs Distribution */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="relative aspect-video w-full overflow-hidden">
                 <img
                   src={`${baseUrl}images/impact/sanitary-pads.jpg`}
-                  alt="Distribution of sanitary pads"
+                  alt="Distribution of feminine hygiene packs"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.onerror = null;
-                    target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Sanitary+Pads';
+                    target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Feminine+Hygiene+Packs';
                   }}
                   loading="lazy"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-blue-900 mb-3">200 Sanitary Pads Distributed</h3>
+                <h3 className="text-xl font-bold text-blue-900 mb-3">200 Feminine Hygiene Packs Distributed</h3>
                 <p className="text-gray-700 mb-4">
-                  We've distributed 200+ sanitary pads to young female students in underserved communities, helping them stay in school and maintain their dignity during their menstrual cycles.
+                  We've distributed 200+ feminine hygiene packs to young female students in underserved communities, helping them stay in school and maintain their dignity during their menstrual cycles.
                 </p>
                 <Button variant="link" className="text-blue-600 p-0 hover:underline">
                   Support women's health <ArrowRight className="ml-1 h-4 w-4 inline" />
