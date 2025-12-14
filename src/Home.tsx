@@ -376,7 +376,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
       {/* Hero Section with Slideshow */}
       <section className="relative h-[80vh] min-h-[500px] max-h-[800px] overflow-hidden">
         {/* Slideshow Images */}
-        <div className="absolute inset-0 w-full h-full">
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-50 to-blue-100">
           {slides.map((slide, index) => (
             <div
               key={index}
@@ -396,7 +396,6 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  backgroundColor: '#000', // Black background for letterboxing
                 }}
               />
               <div className="absolute top-4 right-4 z-30 bg-black/50 text-white text-xs font-semibold px-2 py-1 rounded">
@@ -664,13 +663,14 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
           </div>
           
           <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
-              className="border-blue-600 text-blue-600 hover:bg-blue-50"
-              onClick={() => setCurrentPage?.('gallery')}
-            >
-              View Full Impact Gallery <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <Link to="/gallery">
+              <Button 
+                variant="outline" 
+                className="border-blue-600 text-blue-600 hover:bg-blue-50"
+              >
+                View Full Impact Gallery <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -728,18 +728,14 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
               ))}
             </div>
             <div className="text-center mt-8">
-              <Button
-                variant="outline"
-                className="border-blue-600 text-blue-600 hover:bg-blue-50"
-                onClick={() => {
-                  if (setCurrentPage) {
-                    setCurrentPage('gallery');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-                }}
-              >
-                View All Photos <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link to="/gallery">
+                <Button
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                >
+                  View All Photos <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
