@@ -324,8 +324,6 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   useEffect(() => {
     // All slides including hero-slides and young stars
     const candidates = [
-      '/hero-slides/screenshot-2025-12-14-15-54-58.png',
-      '/hero-slides/screenshot-2025-12-14-15-55-30.png',
       '/hero-slides/wheelchair-basketball-recent.jpg',
       '/hero-slides/wheelchair-basketball-recent-2.jpg',
       '/hero-slides/wheelchair-athlete-track.jpg',
