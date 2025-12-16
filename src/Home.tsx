@@ -263,6 +263,7 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
     { icon: '⚾', name: 'Wheelchair Softball' },
     { icon: '🏓', name: 'Wheelchair Table Tennis' },
     { icon: '🏁', name: 'Wheelchair Racing' },
+    { icon: '🏸', name: 'Wheelchair Badminton' },
     { icon: '⚡', name: 'Wheelchair Power Nifty' },
   ];
 
@@ -329,8 +330,12 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
       '/hero-slides/wheelchair-tennis-accra.jpg',
       '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
       '/hero-slides/wheelchair-basketball-recent-new.jpg',
-      '/hero-slides/whatsapp-2025-12-13-17-25-38-1.jpeg',
-      '/hero-slides/whatsapp-2025-12-13-18-29-29-2.jpeg',
+      '/hero-slides/whatsapp-2025-12-16-21-36-09-1.jpeg',
+      '/hero-slides/whatsapp-2025-12-16-21-36-09-2.jpeg',
+      '/hero-slides/whatsapp-2025-12-16-21-36-09-3.jpeg',
+      '/hero-slides/whatsapp-2025-12-16-21-36-09.jpeg',
+      '/hero-slides/whatsapp-2025-12-16-22-26-44-1.jpeg',
+      '/hero-slides/whatsapp-2025-12-16-22-26-44.jpeg',
       `${baseUrl}images/young-stars/young-tennis-star.jpg`
     ];
 
