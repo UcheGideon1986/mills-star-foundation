@@ -324,12 +324,14 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   useEffect(() => {
     // All slides including hero-slides and young stars
     const candidates = [
-      '/hero-slides/wheelchair-basketball-recent.jpg',
       '/hero-slides/wheelchair-basketball-recent-2.jpg',
       '/hero-slides/wheelchair-athlete-track.jpg',
       '/hero-slides/wheelchair-table-tennis.jpg',
       '/hero-slides/wheelchair-tennis-accra.jpg',
       '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
+      '/hero-slides/240757204_4414795455255639_2104738923654322957_n.jpg',
+      '/hero-slides/839b7e40-662a-11ef-b737-11b40758ce69.jpg',
+      '/hero-slides/Foluke-Shittu-Nigeria-Wheelchair-Basketball-player.jpg',
       `${baseUrl}images/young-stars/young-tennis-star.jpg`
     ];
 
