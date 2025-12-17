@@ -679,7 +679,7 @@
       "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761471720/mills-star-foundation/impact-images/m90tnfs8juvx0rtiqcql.png",
       "alt": "Impact Image",
       "uploadedAt": "2025-10-26T18:07:28.839Z"
-    }
+    },
     {
       "id": "mills-star-foundation/impact-images/mzlz9bglulsttlyxgpmm",
       "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761498988/mills-star-foundation/impact-images/mzlz9bglulsttlyxgpmm.jpg",
@@ -750,8 +750,8 @@
       "author": "Mills Star Foundation",
       "date": "December 13, 2025",
       "imageUrl": "/events/whatsapp-2025-12-13-at-17-25-32.jpeg"
-    },
-      ],
+    }
+  ],
   "heroSlides": [
     "/hero-slides/wheelchair-basketball.jpg",
     "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494122/azgfvvdhlvgvqjufgrak.jpg",
