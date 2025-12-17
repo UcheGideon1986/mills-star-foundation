@@ -270,12 +270,10 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   // Hero slideshow images - All images from hero-slides directory + young stars
   const heroSlides = [
     // Existing hero slides
-    '/hero-slides/wheelchair-basketball.jpg',
     '/hero-slides/wheelchair-tennis-accra.jpg',
     // Newly added hero slides
     '/hero-slides/240757204_4414795455255639_2104738923654322957_n.jpg',
     '/hero-slides/839b7e40-662a-11ef-b737-11b40758ce69.jpg',
-    '/hero-slides/Foluke-Shittu-Nigeria-Wheelchair-Basketball-player.jpg',
     '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
     // Young stars images
     `${baseUrl}images/young-stars/young-players.jpg`,
