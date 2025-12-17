@@ -19,12 +19,14 @@ interface HomeProps {
   setCurrentPage?: (page: string) => void;
 }
 
-export function Home({ setCurrentPage }: HomeProps = {}) {
+export default function Home({ setCurrentPage }: HomeProps = {}) {
   const baseUrl = import.meta.env.BASE_URL || '';
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [siteImages, setSiteImages] = useState<Record<string, string>>({});
   const [impactImages, setImpactImages] = useState<UploadedImage[]>([]);
   const [customImpactStats, setCustomImpactStats] = useState<any[]>([]);
+  const [heroSlides, setHeroSlides] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Gallery images - Only show Health Education on home page
   // Other images will be shown on the full gallery page
@@ -262,11 +264,9 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
     { icon: '⚡', name: 'Wheelchair Power Nifty' },
   ];
 
-  // Hero slideshow images - All images from hero-slides directory + young stars
-  const heroSlides = [
-    // Existing hero slides
+  // Default hero slides
+  const defaultHeroSlides = [
     '/hero-slides/wheelchair-tennis-accra.jpg',
-    // Newly added hero slides
     '/hero-slides/240757204_4414795455255639_2104738923654322957_n.jpg',
     '/hero-slides/839b7e40-662a-11ef-b737-11b40758ce69.jpg',
     '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
@@ -316,38 +316,61 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
 
   // Load hero slideshow images
   useEffect(() => {
-    // All slides including hero-slides and young stars
-    const candidates = [
-      '/hero-slides/wheelchair-table-tennis.jpg',
-      '/hero-slides/wheelchair-tennis-accra.jpg',
-      '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
-      '/hero-slides/whatsapp-2025-12-16-21-36-09-1.jpeg',
-      '/hero-slides/whatsapp-2025-12-16-21-36-09-2.jpeg',
-      '/hero-slides/whatsapp-2025-12-16-21-36-09-3.jpeg',
-      '/hero-slides/whatsapp-2025-12-16-21-36-09.jpeg',
-      '/hero-slides/whatsapp-2025-12-16-22-26-44-1.jpeg',
-      '/hero-slides/whatsapp-2025-12-16-22-26-44.jpeg',
-      '/hero-slides/whatsapp-2025-12-17-06-05-38-1.jpeg',
-      '/hero-slides/whatsapp-2025-12-17-06-05-38-2.jpeg',
-      '/hero-slides/whatsapp-2025-12-17-06-05-38.jpeg',
-      `${baseUrl}images/young-stars/young-tennis-star.jpg`
-    ];
+    // First, load the slides from images.json
+    const loadSlidesFromJson = async () => {
+      try {
+        const response = await fetch('/data/images.json');
+        const data = await response.json();
+        if (data.heroSlides && data.heroSlides.length > 0) {
+          return data.heroSlides;
+        }
+      } catch (error) {
+        console.error('Error loading slides from images.json:', error);
+      }
+      return [];
+    };
 
-    const preload = (src: string) =>
-      new Promise<string>((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => resolve(src);
-        img.onerror = () => reject(src);
-        img.src = src;
+    const initializeSlides = async () => {
+      // Get slides from images.json
+      const jsonSlides = await loadSlidesFromJson();
+      
+      // If no slides found in JSON, use minimal fallback
+      if (jsonSlides.length === 0) {
+        console.warn('No slides found in images.json, using empty array');
+        setSlides([]);
+        return;
+      }
+      
+      // Preload all slides from JSON
+      const preload = (src: string) =>
+        new Promise<string>((resolve, reject) => {
+          // Handle relative paths by ensuring they're absolute
+          const fullSrc = src.startsWith('http') || src.startsWith('/') ? src : `/${src}`;
+          const img = new Image();
+          img.onload = () => resolve(src);
+          img.onerror = () => {
+            console.warn(`Failed to load hero slide: ${src}`);
+            reject(src);
+          };
+          img.src = fullSrc;
+        });
+
+      Promise.allSettled(jsonSlides.map(preload)).then((results) => {
+        const ok = results
+          .filter((r) => r.status === 'fulfilled')
+          .map((r: any) => r.value as string);
+        
+        if (ok.length === 0) {
+          console.warn('No hero slides could be loaded');
+          setSlides([]);
+        } else {
+          console.log('Hero slides loaded:', ok);
+          setSlides(ok);
+        }
       });
+    };
 
-    Promise.allSettled(candidates.map(preload)).then((results) => {
-      const ok = results
-        .filter((r) => r.status === 'fulfilled')
-        .map((r: any) => r.value as string);
-      setSlides(ok);
-      console.log('Hero slides loaded:', ok);
-    });
+    initializeSlides();
   }, []); // Removed impactImages dependency since we're not using them
 
   // Auto-advance slideshow every 5 seconds
