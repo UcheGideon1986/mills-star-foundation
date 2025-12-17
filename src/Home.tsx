@@ -318,17 +318,18 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   useEffect(() => {
     // All slides including hero-slides and young stars
     const candidates = [
-      '/hero-slides/wheelchair-basketball-recent-2.jpg',
       '/hero-slides/wheelchair-table-tennis.jpg',
       '/hero-slides/wheelchair-tennis-accra.jpg',
       '/hero-slides/FxyMa_UWYAAeCRD.jpeg',
-      '/hero-slides/wheelchair-basketball-recent-new.jpg',
       '/hero-slides/whatsapp-2025-12-16-21-36-09-1.jpeg',
       '/hero-slides/whatsapp-2025-12-16-21-36-09-2.jpeg',
       '/hero-slides/whatsapp-2025-12-16-21-36-09-3.jpeg',
       '/hero-slides/whatsapp-2025-12-16-21-36-09.jpeg',
       '/hero-slides/whatsapp-2025-12-16-22-26-44-1.jpeg',
       '/hero-slides/whatsapp-2025-12-16-22-26-44.jpeg',
+      '/hero-slides/whatsapp-2025-12-17-06-05-38-1.jpeg',
+      '/hero-slides/whatsapp-2025-12-17-06-05-38-2.jpeg',
+      '/hero-slides/whatsapp-2025-12-17-06-05-38.jpeg',
       `${baseUrl}images/young-stars/young-tennis-star.jpg`
     ];
 

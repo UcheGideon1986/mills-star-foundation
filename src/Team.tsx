@@ -17,38 +17,6 @@ const Team = () => {
               <p className="text-blue-600 font-medium">Founder, Mills Star Foundation</p>
             </div>
           </div>
-          
-          {/* VP */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900">Tamilola Olofintuyi</h3>
-              <p className="text-blue-600 font-medium">Vice President, Mills Star Foundation</p>
-            </div>
-          </div>
-          
-          {/* Board Member */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900">Jerry Uwazie</h3>
-              <p className="text-blue-600 font-medium">Board Member, Mills Star Foundation</p>
-            </div>
-          </div>
-          
-          {/* PA */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900">Adewole Olukoya John</h3>
-              <p className="text-blue-600 font-medium">Personal Assistant, Mills Star Foundation</p>
-            </div>
-          </div>
-          
-          {/* Web Developer */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900">Enukaora Uche Gideon</h3>
-              <p className="text-blue-600 font-medium">Web Developer, Mills Star Foundation</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
