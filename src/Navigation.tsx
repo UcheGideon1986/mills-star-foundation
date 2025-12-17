@@ -11,7 +11,6 @@ export function Navigation() {
     { id: '/', label: 'Home' },
     { id: '/about', label: 'About' },
     { id: '/gallery', label: 'Gallery' },
-    { id: '/videos', label: 'Videos' },
     { id: '/blog', label: 'Event' },
     { id: '/contact', label: 'Contact' },
   ];

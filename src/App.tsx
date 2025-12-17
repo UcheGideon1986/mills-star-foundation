@@ -8,7 +8,6 @@ import { Gallery } from './Gallery';
 import { Admin } from './Admin';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
-import { Videos } from './Videos';
 
 export default function App() {
   const location = useLocation();
@@ -25,7 +24,6 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/videos" element={<Videos />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<Home />} />
         </Routes>
