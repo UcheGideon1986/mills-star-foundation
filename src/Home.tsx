@@ -39,11 +39,6 @@ export function Home({ setCurrentPage }: HomeProps = {}) {
   // All gallery images for the full gallery page
   const allGalleryImages = [
     {
-      url: '/hero-slides/wheelchair-basketball.jpg',
-      title: 'Wheelchair Basketball',
-      category: 'sports'
-    },
-    {
       url: '/blog-images/health-education-ghana.jpg',
       title: 'Health Education',
       category: 'education'
