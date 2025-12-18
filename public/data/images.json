@@ -1,12 +1,6 @@
 {
   "images": [
     {
-      "id": "mills-star-foundation/gallery/gfbksctiba7yds5foaar",
-      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472475/mills-star-foundation/gallery/gfbksctiba7yds5foaar.png",
-      "alt": "Image",
-      "uploadedAt": "2025-10-26T18:07:28.839Z"
-    },
-    {
       "id": "mills-star-foundation/gallery/i5y5yptpw0z18u5qaiv0",
       "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761472478/mills-star-foundation/gallery/i5y5yptpw0z18u5qaiv0.png",
       "alt": "Image",
@@ -656,84 +650,21 @@
       "alt": "WhatsApp Image 2025-12-17 06:29:41",
       "category": "gallery",
       "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-00",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-00-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:00",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-01-1",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-01-1-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:01 (1)",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-01-2",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-01-2-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:01 (2)",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-01-3",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-01-3-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:01 (3)",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-01-4",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-01-4-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:01 (4)",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-01",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-01-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:01",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-02-1",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-02-1-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:02 (1)",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-02-2",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-02-2-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:02 (2)",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
-    },
-    {
-      "id": "local-gallery-whatsapp-2025-12-17-07-12-02",
-      "url": "/gallery/whatsapp-2025-12-17-07-12-02-gallery.jpeg",
-      "alt": "WhatsApp Image 2025-12-17 07:12:02",
-      "category": "gallery",
-      "uploadedAt": "2025-12-17T00:00:00.000Z"
     }
   ],
   "siteImages": {
-    "heroHome": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470677/mills-star-foundation/site-images/o4jwlbwzezmxxipircot.jpg",
-    "aboutHero": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470724/mills-star-foundation/site-images/qeyuwmkjw2mdfxwzq2ct.png",
-    "galleryHero": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470756/mills-star-foundation/site-images/hqwgnttcsx3wfduknoh5.png",
-    "galleryFeatured1": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470772/mills-star-foundation/site-images/v69tdqgltctjv1le6sos.png",
-    "blogHero": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470796/mills-star-foundation/site-images/hwbw3btvkiscstthzq1z.jpg",
-    "donateHero": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470902/mills-star-foundation/site-images/xi3ls1esv3yefnmmxzic.png",
-    "donateImpact": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761470950/mills-star-foundation/site-images/lparij9wrmby3ur9jyuw.png"
+    "heroHome": "/images/hero-default.jpg",
+    "aboutHero": "/images/about-hero-default.jpg",
+    "galleryHero": "/images/gallery-hero-default.jpg",
+    "galleryFeatured1": "/images/gallery-featured1-default.jpg",
+    "blogHero": "/images/blog-hero-default.jpg",
+    "donateHero": "/images/donate-hero-default.jpg",
+    "donateImpact": "/images/donate-impact-default.jpg"
   },
   "impactImages": [
     {
-      "id": "mills-star-foundation/impact-images/zj3tkvnl5a6c5dmeexbz",
-      "url": "https://res.cloudinary.com/ddey2siz7/image/upload/v1761471557/mills-star-foundation/impact-images/zj3tkvnl5a6c5dmeexbz.png",
+      "id": "local-impact-images/1",
+      "url": "/impact-images/1.jpg",
       "alt": "Impact Image",
       "uploadedAt": "2025-10-26T18:07:28.839Z"
     },
@@ -816,15 +747,21 @@
     }
   ],
   "heroSlides": [
+    "/hero-slides/wheelchair-tennis-guy.jpg",
+    "/hero-slides/wheelchair-tennis-accra.jpg",
+    "/hero-slides/wheelchair-table-tennis.jpg",
     "/hero-slides/wheelchair-basketball.jpg",
-    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494122/azgfvvdhlvgvqjufgrak.jpg",
-    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494140/iwyebifcxxvbhmeuvqyv.jpg",
-    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494242/yvcrwupep4cqvzld0utt.jpg",
-    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494156/gwkhdmyxavfelnsovixx.jpg",
-    "https://res.cloudinary.com/ddey2siz7/image/upload/v1761494240/qe9vykzsopqc1kzi9h7q.jpg",
-    "/hero-slides/whatsapp-2025-12-17-07-12-00-new.jpeg",
-    "/hero-slides/whatsapp-2025-12-17-07-12-01-4-new.jpeg",
-    "/hero-slides/whatsapp-2025-12-17-07-12-02-3-new.jpeg"
+    "/hero-slides/whatsapp-2025-12-13-17-25-38-1.jpeg",
+    "/hero-slides/whatsapp-2025-12-16-21-36-09-1.jpeg",
+    "/hero-slides/whatsapp-2025-12-16-21-36-09-2.jpeg",
+    "/hero-slides/whatsapp-2025-12-16-21-36-09-3.jpeg",
+    "/hero-slides/whatsapp-2025-12-16-21-36-09.jpeg",
+    "/hero-slides/whatsapp-2025-12-16-22-26-44-1.jpeg",
+    "/hero-slides/whatsapp-2025-12-16-22-26-44.jpeg",
+    "/hero-slides/whatsapp-2025-12-17-06-05-38-1.jpeg",
+    "/hero-slides/whatsapp-2025-12-17-06-05-38-2.jpeg",
+    "/hero-slides/whatsapp-2025-12-17-06-05-38.jpeg",
+    "/hero-slides/whatsapp-2025-12-17-07-12-01-4-new.jpeg"
   ],
   "lastUpdated": "2025-11-01T22:48:10.798Z"
 }

@@ -373,6 +373,15 @@ export default function Home({ setCurrentPage }: HomeProps = {}) {
     initializeSlides();
   }, []); // Removed impactImages dependency since we're not using them
 
+  // Force re-render when images.json changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      initializeSlides();
+    }, 1000); // Check for updates every second
+    
+    return () => clearInterval(interval);
+  }, []);
+
   // Auto-advance slideshow every 5 seconds
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -412,11 +421,10 @@ export default function Home({ setCurrentPage }: HomeProps = {}) {
                 style={{
                   objectFit: 'cover',
                   objectPosition: 'center',
-                  width: '100%',
-                  height: '100%',
+                  inlineSize: '100%',
                   position: 'absolute',
-                  top: 0,
-                  left: 0,
+                  insetBlockStart: 0,
+                  insetInlineStart: 0,
                 }}
               />
               <div className="absolute top-4 right-4 z-30 bg-black/50 text-white text-xs font-semibold px-2 py-1 rounded">
@@ -533,7 +541,7 @@ export default function Home({ setCurrentPage }: HomeProps = {}) {
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Books+Donation';
                   }}
                   loading="lazy"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-inline-size: 640px) 100vw, (max-inline-size: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -560,7 +568,7 @@ export default function Home({ setCurrentPage }: HomeProps = {}) {
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Wheelchair+Donation';
                   }}
                   loading="lazy"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-inline-size: 640px) 100vw, (max-inline-size: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -587,7 +595,7 @@ export default function Home({ setCurrentPage }: HomeProps = {}) {
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Feeding+Program';
                   }}
                   loading="lazy"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-inline-size: 640px) 100vw, (max-inline-size: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -614,7 +622,7 @@ export default function Home({ setCurrentPage }: HomeProps = {}) {
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=School+Chairs';
                   }}
                   loading="lazy"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-inline-size: 640px) 100vw, (max-inline-size: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -641,7 +649,7 @@ export default function Home({ setCurrentPage }: HomeProps = {}) {
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Feminine+Hygiene+Packs';
                   }}
                   loading="lazy"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-inline-size: 640px) 100vw, (max-inline-size: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -668,7 +676,7 @@ export default function Home({ setCurrentPage }: HomeProps = {}) {
                     target.src = 'https://placehold.co/600x400/1e40af/ffffff?text=Wheelchair+Sports';
                   }}
                   loading="lazy"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-inline-size: 640px) 100vw, (max-inline-size: 1024px) 50vw, 33vw"
                 />
               </div>
               <div className="p-6">
