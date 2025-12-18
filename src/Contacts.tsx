@@ -11,8 +11,8 @@ export function Contact() {
     {
       icon: <Mail className="h-6 w-6" />,
       title: 'Email',
-      content: 'info@millsstarfoundation.org',
-      link: 'mailto:info@millsstarfoundation.org',
+      content: 'info@millsstarfoundation.com',
+      link: 'mailto:info@millsstarfoundation.com',
     },
     {
       icon: <Phone className="h-6 w-6" />,

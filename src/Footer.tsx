@@ -101,11 +101,11 @@ export function Footer() {
             <h3 className="text-white mb-4">Connect With Us</h3>
             <div className="space-y-3 mb-6">
               <a
-                href="mailto:info@millsstarfoundation.org"
+                href="mailto:info@millsstarfoundation.com"
                 className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
               >
                 <Mail className="h-4 w-4" />
-                info@millsstarfoundation.org
+                info@millsstarfoundation.com
               </a>
             </div>
             <div className="flex gap-4">
